@@ -1,0 +1,44 @@
+:root {
+  --color-primary: #7379ff;
+  --color-accent: #5145cf;
+  --color-sky: #9ed5ff;
+  --color-lavender: #a298ff;
+  --color-background: #fff;
+  --color-surface: #f1f3ff;
+  --color-text: #323643;
+  --color-muted: #535c70;
+  --color-border: #dce0f4;
+  --color-night: #06082b;
+  --color-on-primary: #fff;
+  --gradient-brand: linear-gradient(120deg, #9ed5ff, #a298ff);
+  --gradient-deep: linear-gradient(120deg, #7379ee, #5144ff);
+  --font-primary: "Exo", system-ui, sans-serif;
+  --font-secondary: "Josefin Sans", system-ui, sans-serif;
+  --font-body: "Noto Sans SC", system-ui, sans-serif;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-title: clamp(1.85rem, 3.4vw, 3rem);
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --section-space: clamp(3.5rem, 6vw, 6rem);
+  --container-width: 80rem;
+  --container-padding: clamp(1.25rem, 4vw, 3rem);
+  --radius-card: 1rem;
+  --radius-pill: 999px;
+  --shadow-card: 0 6px 20px #4443a21a;
+  --transition-fast: 180ms ease;
+  --transition-normal: 300ms ease;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-background: #101329;
+  --color-surface: #1c203d;
+  --color-text: #f3f4ff;
+  --color-muted: #c2c8e0;
+  --color-border: #3a4166;
+  --color-accent: #b8b5ff;
+  --shadow-card: 0 6px 22px #0003;
+}
