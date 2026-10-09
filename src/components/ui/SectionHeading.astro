@@ -1,0 +1,50 @@
+---
+interface Props {
+  prefix: string;
+  accent: string;
+  description?: string;
+  light?: boolean;
+  id?: string;
+}
+const { prefix, accent, description, light = false, id } = Astro.props;
+---
+
+<div class:list={["section-heading", { "section-heading--light": light }]}>
+  <h2 id={id} class="section-heading__title">
+    {prefix} <strong>{accent}</strong>
+  </h2>
+  {description && <p class="section-heading__description">{description}</p>}
+</div>
+<style>
+  .section-heading {
+    text-align: center;
+    max-width: 68rem;
+    margin: 0 auto clamp(2rem, 4vw, 3.5rem);
+  }
+  .section-heading__title {
+    font-size: var(--text-title);
+    line-height: 1.2;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .section-heading__title strong {
+    font-weight: 800;
+    color: var(--color-accent);
+  }
+  .section-heading__description {
+    font-family: var(--font-body);
+    margin-top: 1.25rem;
+    color: var(--color-text);
+    text-wrap: pretty;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+  .section-heading--light .section-heading__title,
+  .section-heading--light .section-heading__description {
+    color: #fff;
+  }
+  .section-heading--light .section-heading__title strong {
+    color: #cceaff;
+  }
+</style>
