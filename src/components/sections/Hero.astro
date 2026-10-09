@@ -1,0 +1,223 @@
+---
+import { contact, registrationUrl } from "../../data/navigation";
+const stats = [
+  { value: "12", label: "Marcas aliadas" },
+  { value: "+500", label: "Usuarios" },
+  { value: "4500", label: "Productos" },
+];
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <!-- <div class="hero__glow" aria-hidden="true"></div> -->
+  <div class="hero__inner container">
+    <h1 class="hero__title" id="hero-title">
+      Brilla, conecta y trasciende
+    </h1>
+    <p class="hero__description">
+      El mercado digital que te brinda una forma sencilla, rápida
+      <br class="hero__break" /> y segura de comprar por internet.
+    </p>
+    <div class="hero__actions">
+      <a class="button" href="#categorias">
+        EXPLORAR
+      </a>
+      <a class="button button--light" href={registrationUrl ?? contact.href}>
+        UNIRSE
+      </a>
+    </div>
+    <dl class="hero__stats">
+      {stats.map((stat, index) => (
+        <div class:list={["hero__stat", { "hero__stat--accent": index === 1 }]}>
+          <dt>{stat.label}</dt>
+          <dd>{stat.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+<script>
+  import "@scripts/animations/hero";
+</script>
+<style>
+  .hero {
+    --hero-gradient: linear-gradient(90deg, #a0d5fd, #9d98fc);
+    position: relative;
+    padding: clamp(9.5rem, 12vw, 12.5rem) 0 clamp(3rem, 6vw, 6rem);
+    color: #323643;
+    background-color: #fff;
+    background-image:
+      var(--hero-gradient),
+      url("/images/backgrounds/hero-mesh-background.png");
+    background-blend-mode: color, normal;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  /* .hero::after {
+    content: "";
+    position: absolute;
+    inset: 65% 0 0;
+    background: linear-gradient(transparent, var(--color-background));
+    z-index: -1;
+  } */
+  /* .hero__glow {
+    position: absolute;
+    inset: 15% -15% -10%;
+    background: radial-gradient(ellipse, #fff9, transparent 68%);
+    z-index: -1;
+    pointer-events: none;
+  } */
+  .hero__inner {
+    text-align: center;
+  }
+  .hero__title {
+    font-size: clamp(2.4rem, 4.5vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    max-width: 75rem;
+    margin: auto;
+    color: #fff;
+    text-shadow: none;
+    text-wrap: balance;
+  }
+  .hero__description {
+    max-width: 52rem;
+    margin: 1.65rem auto 0;
+    font-size: clamp(1rem, 1.5vw, 1.3rem);
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .hero__actions {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 4vw, 4rem);
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .hero__actions .button {
+    min-width: 12rem;
+  }
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+    margin: 4rem 0 0;
+  }
+  .hero__stat {
+    /* display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    padding: 1.35rem 1rem;
+    background: #ffffff80;
+    border: 1px solid #fff3;
+    border-radius: var(--radius-card);
+    box-shadow: 0 4px 24px #c6cafa44; */
+  }
+  .hero__stat {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    padding: 1.35rem 1rem;
+    border-radius: var(--radius-card);
+    /* Conserva aquí tu border-radius actual. */
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  /* Fondo y relieve de la tarjeta. */
+  .hero__stat::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    border-radius: inherit;
+    background-color: #f6f6f6;
+
+    box-shadow:
+      -5px -5px 5px 0 rgb(255 255 255 / 75%),
+      5px 5px 5px 0 rgb(0 0 0 / 75%);
+
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
+
+  /* Mantiene los números y textos encima del efecto. */
+  .hero__stat > * {
+    position: relative;
+    z-index: 1;
+  }
+  .hero__stat dt {
+    font-family: var(--font-secondary);
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: #555f75;
+  }
+  .hero__stat dd {
+    font-family: var(--font-body);
+    font-size: clamp(2.25rem, 4.5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0;
+    color: #66718a;
+  }
+  .hero__stat--accent dd, .hero__stat--accent dt {
+    color: #7379ff;
+  }
+  :global([data-theme="dark"]) .hero__title {
+    color: #fff;
+  }
+  :global([data-theme="dark"]) .hero {
+    background: linear-gradient(115deg, #253b66, #36325d);
+    color: #fff;
+  }
+  :global([data-theme="dark"]) .hero__glow {
+    opacity: 0.1;
+  }
+  :global([data-theme="dark"]) .hero__stat {
+    background: #202746cc;
+  }
+  :global([data-theme="dark"]) .hero__stat dt,
+  :global([data-theme="dark"]) .hero__stat dd {
+    color: #d9e6ff;
+  }
+  @media (max-width: 40rem) {
+    .hero__stats {
+      gap: 0.75rem;
+      margin-top: 2.75rem;
+    }
+    .hero__stat {
+      padding: 1rem 0.5rem;
+    }
+    .hero__stat dt {
+      font-size: 0.75rem;
+      letter-spacing: 0;
+    }
+    .hero__stat dd {
+      font-size: 2rem;
+    }
+    .hero__actions {
+      gap: 0.75rem;
+    }
+    .hero__actions .button {
+      min-width: 0;
+      padding: 0.75rem 1.75rem;
+    }
+    .hero__break {
+      display: none;
+    }
+    .hero {
+      padding-top: 7.75rem;
+      padding-bottom: 2.25rem;
+    }
+  }
+</style>
