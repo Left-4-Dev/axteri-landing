@@ -1,0 +1,123 @@
+---
+import SectionHeading from "@components/ui/SectionHeading.astro";
+const pillars = [
+  {
+    title: "Misión",
+    icon: "/icons/target.svg",
+    text: "Conectar a las industrias con los mejores proveedores a través de una plataforma rápida, segura e intuitiva, que centraliza productos, precios y comunicación, garantizando eficiencia en cada compra y fortaleciendo la cadena de compra industrial.",
+  },
+  {
+    title: "Visión",
+    icon: "/icons/eye.svg",
+    text: "Liderar el mercado industrial como el ecosistema digital que implementa procesos innovadores, simplifica el abastecimiento y fortalece la conexión profesional, ofreciendo una plataforma de búsqueda intuitiva con seguridad total para el comercio B2B.",
+  },
+];
+---
+
+<section id="nosotros" class="about section" aria-labelledby="about-title">
+  <div class="container">
+    <SectionHeading
+      id="about-title"
+      prefix="Sobre"
+      accent="nosotros"
+      description="Somos una plataforma digital especializada en conectar a las industrias con los mejores proveedores del mercado, con el fin de asegurar una venta profesional, sin fraudes o procesos informales. Centralizamos productos, marcas, cotizaciones y entregas dentro de un solo ecosistema para garantizar eficiencia y estabilidad en todo el proceso de adquisición."
+    />
+    <div class="about__grid">
+      {pillars.map((pillar, index) => (
+        <article
+          class:list={["about__card", { "about__card--vision": index === 1 }]}
+          data-reveal
+        >
+          <span class="about__icon-wrapper" aria-hidden="true">
+            <img
+              class="about__icon"
+              src={pillar.icon}
+              alt=""
+              width="64"
+              height="64"
+              loading="lazy"
+            />
+          </span>
+          <h3 class="about__title">{pillar.title}</h3>
+          <p>{pillar.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .about {
+    padding-top: 2rem;
+  }
+  .about__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 6vw, 6rem);
+    max-width: 66rem;
+    margin: auto;
+  }
+  .about__card {
+    position: relative;
+    padding: 3rem 2.5rem 2.5rem;
+    border-radius: var(--radius-card);
+    background: linear-gradient(78deg, #a0d5fd, #9eb6fc);
+    box-shadow: var(--shadow-card);
+    color: #fff;
+  }
+  .about__card--vision {
+    background: linear-gradient(78deg, #9eb6fc, #9d98fc);
+  }
+  .about__title {
+    font-size: 1.65rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    padding-right: 3rem;
+  }
+  .about__icon-wrapper {
+  /* Sustituye este RGB por el color exacto de Illustrator. */
+  --icon-shadow-color: rgb(175, 157, 209, 75%);
+  position: absolute;
+  right: 1.25rem;
+  top: 1.25rem;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  background: #fff;
+  overflow: visible;
+}
+.about__icon-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow:
+    2.6px 2.6px 1.9px 0 var(--icon-shadow-color);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+  .about__icon {
+    display: block;
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+  }
+  .about__card p {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+  @media (max-width: 42rem) {
+    .about__grid {
+      grid-template-columns: 1fr;
+    }
+    .about__card {
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>
