@@ -1,0 +1,311 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import central from "/icons/marketplace.svg?url";
+import digital from "/icons/digital-platform.svg?url";
+import certified from "/icons/certified-products.svg?url";
+import delivery from "/icons/delivery.svg?url";
+import verified from "/icons/verified-suppliers.svg?url";
+import support from "/icons/support.svg?url";
+const services = [
+  { key: "digital", image: digital, title: "Plataforma digital" },
+  {
+    key: "certified",
+    image: certified,
+    title: "Ventas facturadas con productos certificados",
+  },
+  { key: "delivery", image: delivery, title: "Consolidación y transporte" },
+  {
+    key: "verified",
+    image: verified,
+    title: "Proveedores verificados y formales",
+  },
+  {
+    key: "support",
+    image: support,
+    title: "Asesoría personalizada con apoyo de IA",
+  },
+];
+---
+
+<section class="services section" aria-labelledby="services-title">
+  <div class="container">
+    <SectionHeading
+      id="services-title"
+      prefix="Nuestros"
+      accent="servicios"
+      description="Te brindamos productos de calidad con los mejores proveedores del mercado, una plataforma de exposición y un sistema para buscar, comparar y cotizar tus artículos, todo potenciado por IA. Asimismo, nos encargamos del despacho a cualquier región del Perú."
+    />
+    <div class="services__diagram">
+      <div class="services__center">
+        <Image
+          class="services__center-image"
+          src={central}
+          alt=""
+          width={340}
+          height={340}
+          loading="lazy"
+        />
+      </div>
+      <ul class="services__list">
+        {services.map((service) => (
+          <li
+            class={`services__item services__item--${service.key}`}
+            data-reveal
+          >
+            <div class="services__icon-wrapper">
+              <Image
+                class="services__icon"
+                src={service.image}
+                alt=""
+                width={144}
+                height={144}
+                loading="lazy"
+              />
+            </div>
+
+            <h3>{service.title}</h3>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+<style>
+  .services {
+    padding-top: 1rem;
+  }
+  .services__diagram {
+    max-width: 64rem;
+    margin: auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    gap: 2rem;
+  }
+  .services__center {
+    grid-column: 2;
+    grid-row: 1;
+    margin: auto;
+    width: 100%;
+    border-radius: 50%;
+  }
+  .services__list {
+    grid-column: 1/-1;
+    grid-row: 1;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4rem 2rem;
+    margin: 0;
+  }
+  .services__item {
+    --icon-wrapper-size: 7.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+  }
+  .services__icon-wrapper {
+    --connector-color: #a49bfc;
+    --connector-length: 1.5rem;
+    --connector-thickness: 0.5rem;
+    --connector-gap: 0.375rem;
+    --connector-dot-size: 2rem;
+    --connector-overlap: 2px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: var(--icon-wrapper-size);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--icon-background);
+    box-shadow:
+      5px 7px 10px rgb(48 52 65 / 22%)
+  }
+  .services__icon-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(
+      var(--connector-length) + var(--connector-overlap)
+    );
+    height: var(--connector-thickness);
+    border-radius: 0 999px 999px 0;
+    background: var(--connector-color);
+    transform-origin: 0 50%;
+    transform:
+      translateY(-50%)
+      rotate(var(--connector-angle))
+      translateX(
+        calc(
+          var(--icon-wrapper-size) / 2
+          - var(--connector-overlap)
+        )
+      );
+    pointer-events: none;
+  }
+  .services__item--support .services__icon-wrapper::before {
+    --connector-tail: 2.75rem;
+    top: calc(0px - var(--connector-length));
+    bottom: calc(0px - var(--connector-tail));
+    width: var(--connector-thickness);
+    height: auto;
+    border-radius: 999px;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      to bottom,
+      var(--connector-color) 0,
+      var(--connector-color) var(--connector-length),
+      transparent var(--connector-length),
+      transparent calc(100% - var(--connector-tail)),
+      var(--connector-color) calc(100% - var(--connector-tail)),
+      var(--connector-color) 100%
+    );
+  }
+  .services__icon-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--connector-dot-size);
+    height: var(--connector-dot-size);
+    border: 0.625rem solid var(--connector-color);
+    border-radius: 50%;
+    background: #fff;
+    transform:
+      translate(-50%, -50%)
+      rotate(var(--connector-angle))
+      translateX(
+        calc(
+          var(--icon-wrapper-size) / 2
+          + var(--connector-length)
+          + var(--connector-gap)
+          + var(--connector-dot-size) / 2
+        )
+      );
+    pointer-events: none;
+  }
+  .services__icon {
+    display: block;
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+  }
+  .services__item h3 {
+    font-size: 1rem;
+    line-height: 1.5;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .services__item--digital {
+    --icon-background: linear-gradient(126deg, #a0d5fd, #9d98fc);
+    --connector-angle: 35deg;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .services__item--certified {
+    --icon-background: linear-gradient(216deg, #a0d5fd, #9d98fc);
+    --connector-angle: 145deg;
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .services__item--delivery {
+    --icon-background: linear-gradient(54deg, #a0d5fd, #9d98fc);
+    --connector-angle: -35deg;
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .services__item--verified {
+    --icon-background: linear-gradient(306deg, #a0d5fd, #9d98fc);
+    --connector-angle: -145deg;
+    grid-column: 3;
+    grid-row: 2;
+  }
+  .services__item--support {
+    --icon-background: linear-gradient(0deg, #a0d5fd, #9d98fc);
+    --connector-angle: -90deg;
+    grid-column: 2;
+    grid-row: 3;
+    justify-content: center;
+    transform: translateX(calc(50% - var(--icon-wrapper-size) / 2));
+  }
+  .services__center {
+    --center-background: #323643;
+    --center-border: #a49bfc;
+    align-self: start;
+    margin-top: 1.5rem;
+    display: grid;
+    place-items: center;
+
+    width: 85%;
+    max-width: 100%;
+    aspect-ratio: 1;
+
+    border: clamp(0.875rem, 2vw, 1rem) solid var(--center-border);
+    border-radius: 50%;
+    background-color: var(--center-background);
+
+    box-shadow:
+      5px 7px 10px rgb(48 52 65 / 22%),
+      inset 4px 5px 9px rgb(0 0 0 / 28%);
+  }
+
+  .services__center-image {
+    display: block;
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+  }
+  .services__item--digital,
+  .services__item--delivery {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+  @media (max-width: 60rem) {
+    .services__diagram {
+      display: flex;
+      flex-direction: column;
+    }
+    /* .services__center {
+      width: 12rem;
+      margin: 0;
+    } */
+    .services__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+    }
+    .services__item {
+      grid-column: auto;
+      grid-row: auto;
+      flex-direction: row;
+      text-align: left;
+    }
+    .services__icon-wrapper::before,
+    .services__icon-wrapper::after {
+      display: none;
+    }
+    .services__item--support {
+      grid-column: 1/-1;
+      justify-content: center;
+      transform: none;
+    }
+  }
+  @media (max-width: 36rem) {
+    .services__list {
+      grid-template-columns: 1fr;
+    }
+    .services__item--support {
+      grid-column: auto;
+      justify-content: start;
+    }
+    .services__item img {
+      width: 5.5rem;
+      height: 5.5rem;
+    }
+  }
+</style>
