@@ -1,0 +1,191 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import FeatureCard from "@components/ui/FeatureCard.astro";
+import { sellerFeatures, buyerFeatures } from "@data/features";
+
+const groups = [
+  { id: "vendedores", title: "Vendedores", features: sellerFeatures },
+  { id: "compradores", title: "Compradores", features: buyerFeatures },
+];
+---
+
+<section class="features section" aria-labelledby="features-title">
+  <div class="container">
+    <SectionHeading
+      id="features-title"
+      prefix="Nuestras"
+      accent="funciones"
+      description="Nuestro marketplace te proporciona diversas herramientas, disponibles tanto para compradores como para vendedores."
+    />
+  </div>
+  {groups.map((group) => (
+    <div class:list={["features__band", { "features__band--buyers": group.id === "compradores" }]} data-features>
+      <div class="features__layout container">
+        <div class="features__intro">
+          <h3 id={`${group.id}-title`} class="features__title">
+            Para <strong>{group.title}</strong>
+          </h3>
+          <div class="features__art" aria-hidden="true">
+            {group.features.map((feature, index) => (
+              <Image
+                class:list={["features__image", { "features__image--active": index === 0 }]}
+                src={feature.image}
+                alt=""
+                width={360}
+                loading="lazy"
+                data-feature-image
+              />
+            ))}
+          </div>
+        </div>
+        <div class="features__carousel">
+          <div
+            id={`${group.id}-cards`}
+            class="features__cards"
+            tabindex="0"
+            role="region"
+            aria-labelledby={`${group.id}-title`}
+            data-feature-track
+          >
+            {group.features.map((feature, index) => (
+              <FeatureCard feature={feature} index={index} groupId={group.id} />
+            ))}
+          </div>
+          <div class="features__controls" data-feature-controls hidden>
+            <button type="button" class="features__arrow" data-feature-prev aria-label={`Función anterior para ${group.id}`} aria-controls={`${group.id}-cards`} disabled>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg>
+            </button>
+            <div class="features__dots" role="group" aria-label={`Elegir función para ${group.id}`}>
+              {group.features.map((feature, index) => (
+                <button
+                  type="button"
+                  class="features__dot"
+                  data-feature-dot
+                  aria-label={`${index + 1}. ${feature.title}`}
+                  aria-controls={`${group.id}-${feature.id}`}
+                  aria-current={index === 0 ? "true" : undefined}
+                />
+              ))}
+            </div>
+            <button type="button" class="features__arrow" data-feature-next aria-label={`Siguiente función para ${group.id}`} aria-controls={`${group.id}-cards`}>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg>
+            </button>
+            <p class="features__status" aria-live="polite" aria-atomic="true" data-feature-status />
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</section>
+
+<script>
+  import "../../scripts/features";
+</script>
+
+<style>
+  .features { padding-top: 1rem; }
+  .features__band {
+    padding-block: 3rem;
+    background: linear-gradient(110deg, #a0d6fa, #b2adff);
+    box-shadow: 0 -8px 25px #2824540d, 0 8px 25px #2824540d;
+  }
+  .features__band + .features__band { margin-top: 2.5rem; }
+  .features__band--buyers { background: linear-gradient(110deg, #aacbff, #b2a9ff); }
+  .features__layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 2rem; }
+  .features__intro { min-width: 0; align-self: center; }
+  .features__title {
+    margin: 0;
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    line-height: 1.3;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: #252c48;
+  }
+  .features__title strong { display: block; color: #5145cf; font-weight: 800; }
+  .features__art { position: relative; width: 100%; aspect-ratio: 1; margin-top: 2rem; }
+  .features__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 180ms ease, visibility 180ms ease;
+  }
+  .features__image--active { opacity: 1; visibility: visible; }
+  .features__carousel { min-width: 0; }
+  .features__cards {
+    --feature-width: min(20rem, calc(100% - 1.5rem));
+    --feature-gap: 1.5rem;
+    display: flex;
+    align-items: stretch;
+    gap: var(--feature-gap);
+    overflow-x: auto;
+    padding: 1rem 0.75rem 1.5rem;
+    scroll-padding-inline: 0.75rem;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #7770ff transparent;
+  }
+  /* Permite que la última tarjeta también alcance el borde de selección. */
+  .features__cards::after {
+    content: "";
+    flex: 0 0 max(0px, calc(100% - var(--feature-width) - var(--feature-gap)));
+  }
+  .features__controls { display: flex; align-items: center; justify-content: center; gap: 0.25rem; margin-top: 0.75rem; }
+  .features__arrow, .features__dot {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #5145cf;
+    cursor: pointer;
+  }
+  .features__arrow { border-radius: 50%; background: rgb(255 255 255 / 35%); }
+  .features__arrow:disabled { opacity: 0.35; cursor: default; }
+  .features__dots { display: flex; }
+  .features__dot::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; opacity: 0.4; }
+  .features__dot[aria-current="true"]::before { width: 1.25rem; border-radius: 1rem; opacity: 1; }
+  .features__status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .features__band--buyers .features__layout { grid-template-columns: minmax(0, 1fr) 15rem; }
+  .features__band--buyers .features__intro { grid-column: 2; grid-row: 1; text-align: right; }
+  .features__band--buyers .features__carousel { grid-column: 1; grid-row: 1; }
+  .features__band--buyers .features__cards,
+  .features__band--buyers .features__controls { direction: rtl; }
+  .features__band--buyers .features__arrow svg { transform: rotate(180deg); }
+
+  /* Escala compartida: 40rem, 48rem, 64rem, 80rem y 96rem.
+     Esta sección solo necesita cambios de distribución en 64rem y 40rem. */
+  @media (max-width: 64rem) {
+    .features__layout,
+    .features__band--buyers .features__layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    .features__intro,
+    .features__band--buyers .features__intro {
+      grid-column: auto;
+      grid-row: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      text-align: left;
+    }
+    .features__band--buyers .features__carousel { grid-column: auto; grid-row: auto; }
+    .features__art { flex: 0 0 9rem; width: 9rem; margin: 0; }
+  }
+  @media (max-width: 40rem) {
+    .features__band { padding-block: 2rem; }
+    .features__art { flex-basis: 6rem; width: 6rem; }
+    .features__title { font-size: clamp(1.125rem, 5vw, 1.5rem); }
+    .features__cards { --feature-gap: 1rem; }
+    .features__dot { width: 2.25rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .features__image { transition: none; }
+  }
+</style>

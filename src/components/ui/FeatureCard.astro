@@ -1,0 +1,229 @@
+---
+import type { Feature } from "@data/features";
+
+interface Props {
+  feature: Feature;
+  index: number;
+  groupId: string;
+}
+const { feature, index, groupId } = Astro.props;
+const cardId = `${groupId}-${feature.id}`;
+const reliefFilterId = `${cardId}-relief`;
+---
+
+<article
+  id={cardId}
+  class:list={["feature-card", { "feature-card--featured": index === 0 }]}
+  style={`--card-relief-filter: url(#${reliefFilterId});`}
+  aria-labelledby={`${cardId}-title`}
+  data-feature-card
+>
+  <!-- Todos necesitan el filtro: cualquiera puede dejar de estar destacado. -->
+  <svg class="feature-card__filters" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id={reliefFilterId} x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur" />
+        <feFlood flood-color="#5752d9" result="purple" />
+        <feComposite in="purple" in2="SourceAlpha" operator="in" result="base" />
+        <feOffset in="blur" dx="5" dy="5" result="dark-offset" />
+        <feFlood flood-color="#000" flood-opacity="0.75" result="black" />
+        <feComposite in="black" in2="dark-offset" operator="in" result="dark-shadow" />
+        <feBlend in="dark-shadow" in2="base" mode="multiply" result="lower" />
+        <feOffset in="blur" dx="-5" dy="-5" result="light-offset" />
+        <feFlood flood-color="#fff" flood-opacity="0.75" result="white" />
+        <feComposite in="white" in2="light-offset" operator="in" result="light-shadow" />
+        <feBlend in="light-shadow" in2="lower" mode="lighten" result="shadows" />
+        <feMerge>
+          <feMergeNode in="shadows" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+  </svg>
+  <div class="feature-card__surface" aria-hidden="true">
+    <svg class="feature-card__shape" viewBox="0 0 400 160" preserveAspectRatio="none" focusable="false">
+      <path d="M188 0H380Q400 0 400 20V160H0Q0 140 20 140H148Q168 140 168 120V20Q168 0 188 0Z" />
+    </svg>
+  </div>
+  <span class="feature-card__number" aria-hidden="true">
+    {String(index + 1).padStart(2, "0")}
+  </span>
+  <span class="feature-card__icon-wrapper" aria-hidden="true">
+    {feature.icon ? (
+      <span class="feature-card__icon feature-card__icon--mask" style={{ "--feature-icon": `url("${feature.icon}")` }} />
+    ) : (
+      <svg class="feature-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+        <path d={feature.iconPath} />
+      </svg>
+    )}
+  </span>
+  <div class="feature-card__body">
+    <h4 id={`${cardId}-title`} class="feature-card__title">{feature.title}</h4>
+    <dl class="feature-card__items">
+      {feature.items.map((item) => (
+        <div class="feature-card__item">
+          <dt class="feature-card__term">{item.title}</dt>
+          <dd class="feature-card__description">
+            {item.bullets?.length ? (
+              <ul class="feature-card__details">
+                {item.bullets.map((bullet) => <li>{bullet}</li>)}
+              </ul>
+            ) : item.description}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</article>
+
+<style>
+  .feature-card {
+    --card-heading: #7770ff;
+    --card-text: #171b27;
+    --card-fill: #f6f6f6;
+    --card-body-fill: var(--card-fill);
+    --card-tab-color: #7379ff;
+    --card-icon-background: #7379ff;
+    --card-icon-color: #fff;
+    --card-header-height: 8rem;
+    --card-tab-height: 1.75rem;
+    --card-radius: 1.25rem;
+    --card-padding: clamp(1.25rem, 2vw, 2rem);
+    position: relative;
+    flex: 0 0 var(--feature-width, 20rem);
+    min-width: 0;
+    padding-bottom: var(--card-tab-height);
+    scroll-snap-align: start;
+    direction: ltr;
+  }
+  .feature-card__filters { position: absolute; pointer-events: none; }
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: 50%;
+    width: 68%;
+    height: var(--card-tab-height);
+    border-radius: 0 0 0.875rem 0.875rem;
+    background: var(--card-tab-color);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .feature-card__surface {
+    position: absolute;
+    z-index: 1;
+    inset: 0 0 var(--card-tab-height);
+    filter: var(--card-relief-filter);
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
+  .feature-card__shape {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--card-header-height);
+    fill: var(--card-fill);
+  }
+  .feature-card__surface::after {
+    content: "";
+    position: absolute;
+    top: var(--card-header-height);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 0 0 var(--card-radius) var(--card-radius);
+    background: var(--card-body-fill);
+  }
+  .feature-card__number {
+    position: absolute;
+    z-index: 2;
+    top: 1.5rem;
+    left: 0;
+    width: 42%;
+    color: #7770ff;
+    font-family: var(--font-primary);
+    font-size: clamp(3.25rem, 5vw, 4.25rem);
+    font-weight: 800;
+    line-height: 1;
+    text-align: center;
+  }
+  .feature-card__icon-wrapper {
+    position: absolute;
+    z-index: 2;
+    top: 1.25rem;
+    right: var(--card-padding);
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--card-icon-background);
+    color: var(--card-icon-color);
+    box-shadow: 4px 6px 9px rgb(66 55 161 / 30%);
+  }
+  .feature-card__icon { display: block; width: 68%; height: 68%; }
+  .feature-card__icon--mask {
+    background: currentColor;
+    mask: var(--feature-icon) center / contain no-repeat;
+    -webkit-mask: var(--feature-icon) center / contain no-repeat;
+  }
+  .feature-card__body {
+    position: relative;
+    z-index: 2;
+    padding: calc(var(--card-header-height) + 1.5rem) var(--card-padding) 2rem;
+    color: var(--card-text);
+    overflow-wrap: break-word;
+  }
+  .feature-card__title {
+    margin: 0;
+    color: var(--card-heading);
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    font-weight: 800;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+  .feature-card__items { display: grid; gap: 1.5rem; margin: 2rem 0 0; }
+  .feature-card__term {
+    position: relative;
+    padding-left: 1.125rem;
+    color: var(--card-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .feature-card__term::before {
+    content: "";
+    position: absolute;
+    top: 0.45em;
+    left: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .feature-card__description {
+    margin: 0.625rem 0 0 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+  }
+  .feature-card__details { display: grid; gap: 0.25rem; margin: 0; padding-left: 1rem; list-style: circle; }
+  .feature-card__details > li::marker { color: var(--card-heading); }
+  .feature-card--featured {
+    --card-heading: #fff;
+    --card-text: #fff;
+    --card-fill: #7774f7;
+    --card-body-fill: linear-gradient(180deg, #7774f7, #5542ff);
+    --card-tab-color: #fff;
+    --card-icon-background: #fff;
+    --card-icon-color: #7774f7;
+    isolation: isolate;
+  }
+  .feature-card--featured .feature-card__surface {
+    filter: drop-shadow(5px 7px 7px rgb(82 81 191 / 20%));
+    mix-blend-mode: normal;
+  }
+</style>
