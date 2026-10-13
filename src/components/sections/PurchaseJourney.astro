@@ -1,0 +1,432 @@
+---
+import SectionHeading from "@components/ui/SectionHeading.astro";
+
+const diagram = {
+  width: 1120,
+  height: 820,
+  radius: 64,
+  innerRadius: 51,
+};
+
+/*
+ * x e y ubican cada hito dentro del SVG.
+ * label indica dónde aparece su texto en escritorio.
+ */
+const steps = [
+  {
+    id: "customer",
+    title: "Cliente o empresa",
+    icon: "customer.svg",
+    x: 175,
+    y: 110,
+    label: "left",
+  },
+  {
+    id: "requirements",
+    title: "Lista de requerimientos",
+    icon: "requirements.svg",
+    x: 410,
+    y: 195,
+    label: "top",
+  },
+  {
+    id: "search",
+    title: "Búsqueda de proveedores",
+    icon: "supplier-search.svg",
+    x: 640,
+    y: 95,
+    label: "bottom",
+  },
+  {
+    id: "verification",
+    title: "Verificación de proveedores",
+    icon: "supplier-verification.svg",
+    x: 910,
+    y: 160,
+    label: "top",
+  },
+  {
+    id: "prices",
+    title: "Negociación de precios",
+    icon: "price-negotiation.svg",
+    x: 1010,
+    y: 400,
+    label: "bottom",
+  },
+  {
+    id: "contract",
+    title: "Contrato de venta",
+    icon: "sales-contract.svg",
+    x: 765,
+    y: 470,
+    label: "top",
+  },
+  {
+    id: "payment",
+    title: "Trámites de pago",
+    icon: "payment.svg",
+    x: 540,
+    y: 360,
+    label: "bottom",
+  },
+  {
+    id: "authenticity",
+    title: "Verificación de originalidad del producto",
+    icon: "product-authenticity.svg",
+    x: 305,
+    y: 485,
+    label: "top",
+  },
+  {
+    id: "shipping",
+    title: "Gestión de envíos",
+    icon: "shipping-management.svg",
+    x: 75,
+    y: 385,
+    label: "top",
+  },
+  {
+    id: "loading",
+    title: "Carga del producto",
+    icon: "product-loading.svg",
+    x: 175,
+    y: 695,
+    label: "bottom",
+  },
+  {
+    id: "transport",
+    title: "Transporte del producto",
+    icon: "product-transport.svg",
+    x: 520,
+    y: 630,
+    label: "bottom",
+  },
+  {
+    id: "arrival",
+    title: "Llegada al almacén u obra",
+    icon: "arrival.svg",
+    x: 865,
+    y: 705,
+    label: "right",
+  },
+];
+
+/* El camino utiliza las mismas coordenadas que los íconos. */
+const route = steps
+  .map((step, index) => {
+    const command = index === 0 ? "M" : "L";
+
+    return `${command} ${step.x} ${step.y}`;
+  })
+  .join(" ");
+---
+
+<section class="journey section" aria-labelledby="journey-title">
+  <div class="container">
+    <SectionHeading
+      id="journey-title"
+      prefix="Nuestra"
+      accent="propuesta de valor"
+      description="No te preocupes por los inconvenientes a la hora de adquirir un producto. En Axteri nos encargamos de todo el proceso: desde la realización del pedido hasta el envío. Olvídate de la gestión y los trámites engorrosos; con tan solo tres simples pasos, recibe tu pedido en el almacén o en la obra, no esperes más y comienza esta experiencia única."
+    />
+
+    <div
+      class="journey__diagram"
+      style={`
+        --diagram-ratio: ${diagram.width} / ${diagram.height};
+        --node-size: ${(diagram.radius * 2 / diagram.width) * 100}%;
+      `}
+    >
+      <svg
+        class="journey__route"
+        viewBox={`0 0 ${diagram.width} ${diagram.height}`}
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <linearGradient
+            id="journey-gradient"
+            gradientUnits="userSpaceOnUse"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2={diagram.height}
+          >
+            <stop offset="0%" stop-color="#9edbff" />
+            <stop offset="55%" stop-color="#9eafff" />
+            <stop offset="100%" stop-color="#a493ff" />
+          </linearGradient>
+
+          <!-- Suaviza las uniones entre el camino y los círculos. -->
+          <filter
+            id="journey-merge"
+            x="-10%"
+            y="-10%"
+            width="120%"
+            height="120%"
+            color-interpolation-filters="sRGB"
+          >
+            <feGaussianBlur stdDeviation="5" />
+            <feColorMatrix
+              type="matrix"
+              values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 20 -9
+              "
+            />
+          </filter>
+
+          <mask
+            id="journey-mask"
+            maskUnits="userSpaceOnUse"
+            mask-type="luminance"
+            x="0"
+            y="0"
+            width={diagram.width}
+            height={diagram.height}
+          >
+            <g filter="url(#journey-merge)">
+              <path
+                d={route}
+                fill="none"
+                stroke="white"
+                stroke-width="30"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              {steps.map((step) => (
+                <circle
+                  cx={step.x}
+                  cy={step.y}
+                  r={diagram.radius}
+                  fill="white"
+                />
+              ))}
+            </g>
+
+            <!-- Vacía el centro de cada círculo. -->
+            {steps.map((step) => (
+              <circle
+                cx={step.x}
+                cy={step.y}
+                r={diagram.innerRadius}
+                fill="black"
+              />
+            ))}
+          </mask>
+        </defs>
+
+        <rect
+          width={diagram.width}
+          height={diagram.height}
+          fill="url(#journey-gradient)"
+          mask="url(#journey-mask)"
+        />
+      </svg>
+
+      <ol class="journey__steps" role="list">
+        {steps.map((step) => (
+          <li
+            class={`journey__step journey__step--${step.label}`}
+            style={`
+              --x: ${(step.x / diagram.width) * 100}%;
+              --y: ${(step.y / diagram.height) * 100}%;
+            `}
+          >
+            <div class="journey__icon-wrapper">
+              <img
+                class="journey__icon"
+                src={`/icons/${step.icon}`}
+                alt=""
+                width="72"
+                height="72"
+                loading="lazy"
+              />
+            </div>
+
+            <span class="journey__label">
+              {step.title}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .journey {
+    padding-top: 1rem;
+  }
+
+  /* Base: recorrido vertical */
+  .journey__diagram {
+    --mobile-node-size: 4.5rem;
+    --mobile-gap: 1.5rem;
+    --route-color: #a49bfc;
+
+    position: relative;
+    margin-inline: auto;
+  }
+
+  .journey__route {
+    display: none;
+  }
+
+  .journey__steps {
+    display: grid;
+    gap: var(--mobile-gap);
+
+    max-width: 36rem;
+    margin: 0 auto;
+    padding: 0;
+
+    list-style: none;
+  }
+
+  .journey__step {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--mobile-node-size) minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  /* Une los nodos en la versión vertical. */
+  .journey__step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    top: calc(var(--mobile-node-size) / 2);
+    bottom: calc(
+      0px - var(--mobile-gap) - var(--mobile-node-size) / 2
+    );
+    left: calc(var(--mobile-node-size) / 2);
+
+    width: 0.3rem;
+    background: var(--route-color);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .journey__icon-wrapper {
+    position: relative;
+    display: grid;
+    place-items: center;
+
+    width: var(--mobile-node-size);
+    aspect-ratio: 1;
+    box-sizing: border-box;
+
+    border: 0.45rem solid var(--route-color);
+    border-radius: 50%;
+    background: var(--color-background, #fff);
+  }
+
+  .journey__icon {
+    display: block;
+    width: 62%;
+    height: 62%;
+    object-fit: contain;
+  }
+
+  .journey__label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.35;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  /* lg: recorrido completo */
+  @media (min-width: 64rem) {
+    .journey__diagram {
+      max-width: 75rem;
+      aspect-ratio: var(--diagram-ratio);
+    }
+
+    .journey__route {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .journey__steps {
+      position: absolute;
+      inset: 0;
+      display: block;
+
+      max-width: none;
+      margin: 0;
+    }
+
+    .journey__step {
+      position: absolute;
+      top: var(--y);
+      left: var(--x);
+      display: block;
+
+      width: var(--node-size);
+      aspect-ratio: 1;
+
+      transform: translate(-50%, -50%);
+    }
+
+    .journey__step::before {
+      display: none;
+    }
+
+    .journey__icon-wrapper {
+      width: 100%;
+      border: 0;
+      background: transparent;
+    }
+
+    .journey__icon {
+      width: 54%;
+      height: 54%;
+    }
+
+    .journey__label {
+      position: absolute;
+      width: clamp(6.5rem, 11vw, 9rem);
+
+      font-size: clamp(0.7rem, 1.05vw, 0.875rem);
+      text-align: center;
+    }
+
+    .journey__step--top .journey__label {
+      bottom: calc(100% + 0.65rem);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .journey__step--bottom .journey__label {
+      top: calc(100% + 0.65rem);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .journey__step--left .journey__label {
+      top: 50%;
+      right: calc(100% + 0.5rem);
+      width: clamp(4.5rem, 8vw, 6rem);
+
+      text-align: right;
+      transform: translateY(-50%);
+    }
+
+    .journey__step--right .journey__label {
+      top: 50%;
+      left: calc(100% + 0.65rem);
+
+      text-align: left;
+      transform: translateY(-50%);
+    }
+  }
+</style>
