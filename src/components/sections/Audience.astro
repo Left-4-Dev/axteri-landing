@@ -1,0 +1,101 @@
+---
+import { Image } from "astro:assets";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import audience from "@assets/illustrations/audience.svg?url";
+---
+
+<section class="audience section" aria-labelledby="audience-title">
+  <div class="container">
+    <SectionHeading
+      id="audience-title"
+      prefix="Nuestro"
+      accent="público B2B"
+      description="Conectamos a fabricantes e importadores a través de una plataforma digital que simplifica los negocios y genera oportunidades en diferentes sectores."
+    />
+  </div>
+  <div class="audience__layout">
+    <article class="audience__panel" data-reveal>
+      <h3>Fabricantes, importadores y distribuidores</h3>
+      <p>
+        Apoyamos a los importadores y proveedores con soluciones digitales que
+        les permitan ampliar su alcance y optimizar sus canales de venta.
+      </p>
+    </article>
+    <Image
+      src={audience}
+      class="audience__image"
+      alt="Una compradora recibe un paquete mediante una tienda digital"
+      width={380}
+      height={285}
+      loading="lazy"
+    />
+    <article class="audience__panel audience__panel--buyers" data-reveal>
+      <h3>Compradores</h3>
+      <p>
+        Ayudamos a negocios o clientes que buscan adquirir productos de forma
+        ágil y confiable, a partir de nuestro amplio catálogo de proveedores.
+      </p>
+    </article>
+  </div>
+</section>
+<style>
+  .audience {
+    padding-top: 1rem;
+  }
+  .audience__layout {
+    display: grid;
+    grid-template-columns: 1fr minmax(15rem, 22rem) 1fr;
+    align-items: center;
+    gap: 1.25rem;
+    max-width: 100rem;
+    margin: auto;
+  }
+  .audience__panel {
+    border-radius: 0 999px 999px 0;
+    background: var(--color-sky);
+    padding: 4rem clamp(2rem, 5vw, 5rem);
+    color: #fff;
+  }
+  .audience__panel--buyers {
+    border-radius: 999px 0 0 999px;
+    background: var(--color-lavender);
+    text-align: right;
+  }
+  .audience__panel h3 {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    line-height: 1.35;
+    margin-bottom: 1rem;
+  }
+  .audience__panel p {
+    font-family: var(--font-body);
+  }
+  .audience__image {
+    width: 100%;
+    border-radius: 1rem;
+  }
+  @media (max-width: 64rem) {
+    .audience__layout {
+      grid-template-columns: 1fr 1fr;
+      padding-inline: var(--container-padding);
+    }
+    .audience__image {
+      grid-column: 1/-1;
+      grid-row: 1;
+      max-width: 17rem;
+      justify-self: center;
+    }
+    .audience__panel,
+    .audience__panel--buyers {
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      text-align: left;
+    }
+  }
+  @media (max-width: 38rem) {
+    .audience__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
