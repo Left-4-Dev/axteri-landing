@@ -1,0 +1,513 @@
+---
+import axteriLogo from "@public/images/brand/axteri-logo.svg";
+import axteLogo from "@assets/logos/axte.svg";
+import { navigationLinks, contact } from "@data/navigation";
+
+const universes = ["INDUX", "ARQUI", "AGRO", "CIVIL", "MEDIC"];
+
+// Reutiliza los SVG del navbar y de Categories. Si sus nombres son distintos
+// en tu proyecto, ajusta únicamente los dos imports anteriores.
+const logoStyle = {
+  "--logo-source": `url("${axteriLogo.src}")`,
+  "aspect-ratio": `${axteriLogo.width} / ${axteriLogo.height}`,
+};
+const axteStyle = {
+  "--logo-source": `url("${axteLogo.src}")`,
+  "aspect-ratio": `${axteLogo.width} / ${axteLogo.height}`,
+};
+
+// Completa href con las URLs oficiales. Mientras estén vacías, los iconos
+// se muestran sin enlace; no se crean destinos ficticios ni enlaces a #.
+const socialLinks = [
+  {
+    name: "Facebook",
+    href: "",
+    path: "M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5H17V3.9c-.3 0-1.5-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6V10H7v3h2.8v8z",
+  },
+  {
+    name: "Instagram",
+    href: "",
+    path: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.5-3.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z",
+  },
+  {
+    name: "TikTok",
+    href: "",
+    path: "M15.6 2c.3 2.4 1.7 4 4.4 4.2v3.2a9 9 0 0 1-4.4-1.3v7.3a6 6 0 1 1-5.2-6v3.3a2.8 2.8 0 1 0 2 2.7V2z",
+  },
+  {
+    name: "YouTube",
+    href: "",
+    path: "M21.6 7.2a2.7 2.7 0 0 0-1.9-1.9C18 4.8 12 4.8 12 4.8s-6 0-7.7.5a2.7 2.7 0 0 0-1.9 1.9C2 8.9 2 12 2 12s0 3.1.4 4.8a2.7 2.7 0 0 0 1.9 1.9c1.7.5 7.7.5 7.7.5s6 0 7.7-.5a2.7 2.7 0 0 0 1.9-1.9c.4-1.7.4-4.8.4-4.8s0-3.1-.4-4.8zM10 15.2V8.8l5.5 3.2z",
+  },
+];
+---
+
+<footer class="footer" id="contacto">
+  <div class="footer__brands footer__inner">
+    <a class="footer__brand" href="#inicio" aria-label="Axteri, volver al inicio">
+      <span class="footer__logo" style={logoStyle} aria-hidden="true"></span>
+    </a>
+
+    <ul class="footer__universes" aria-label="Universo Axteri" role="list">
+      {universes.map((name) => (
+        <li class="footer__universe">
+          <span class="footer__wordmark">
+            <span class="footer__axte" style={axteStyle} aria-hidden="true"></span>
+            <span class="footer__sr">Axte </span>
+            <strong class="footer__name">{name}</strong>
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="footer__main">
+    <div class="footer__columns footer__inner">
+      <nav aria-label="Menú del pie de página">
+        <h2 class="footer__title">Menú</h2>
+        <ul class="footer__links" role="list">
+          {navigationLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav aria-label="Acerca de Axteri">
+        <h2 class="footer__title">Nosotros</h2>
+        <ul class="footer__links" role="list">
+          <li><a href="#nosotros">Nuestra compañía</a></li>
+          <li><a href="#aliados">Nuestros aliados</a></li>
+        </ul>
+      </nav>
+
+      <nav id="eventos" aria-label="Eventos de Axteri">
+        <h2 class="footer__title">Eventos</h2>
+        <ul class="footer__links" role="list">
+          <li>
+            <a href={contact.href} aria-label="Consultar sobre la feria internacional">
+              Feria internacional
+            </a>
+          </li>
+          <li>
+            <a href={contact.href} aria-label="Consultar sobre los talleres digitales">
+              Talleres digitales
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="footer__contact">
+        <h2 class="footer__title">Contacto</h2>
+        <a class="footer__phone" href={contact.href}>{contact.phone}</a>
+
+        <ul class="footer__socials" aria-label="Redes sociales" role="list">
+          {socialLinks.map((social) => (
+            <li>
+              {social.href ? (
+                <a class="footer__social" href={social.href} aria-label={social.name}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d={social.path} fill-rule="evenodd" />
+                  </svg>
+                </a>
+              ) : (
+                <span class="footer__social" role="img" aria-label={social.name}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d={social.path} fill-rule="evenodd" />
+                  </svg>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <a class="footer__top" href="#inicio" aria-label="Volver al inicio">
+          <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path d="M7 39 24 1l17 38H33L24 18 15 39Z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__copyright">
+    <p>© {new Date().getFullYear()} AXTERI - Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    --footer-ink: #323643;
+    --footer-gutter: clamp(1.25rem, 4.4vw, 5rem);
+    --circle-opacity: 0.32;
+
+    /* Aproximaciones visuales: las capturas no muestran los HEX de las paradas. */
+    --links-start: #a0d5fd;
+    --links-end: #9d98fc;
+    --copyright-center: #17176b;
+    --copyright-edge: #03072c;
+
+    background: #fff;
+    color: var(--footer-ink);
+  }
+
+  .footer__inner {
+    width: min(calc(100% - var(--footer-gutter) * 2), 110rem);
+    margin-inline: auto;
+  }
+
+  .footer__brands {
+    display: grid;
+    grid-template-columns: clamp(13rem, 18vw, 20rem) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1rem, 2.7vw, 3rem);
+    padding-block: clamp(2.5rem, 4vw, 4.5rem);
+  }
+
+  .footer__brand {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    min-height: clamp(6rem, 8.4vw, 9.5rem);
+    padding-right: clamp(1.5rem, 2.5vw, 3rem);
+    border-right: 1px solid #626676;
+    color: inherit;
+  }
+
+  /* Las máscaras reutilizan los SVG y los tiñen del color del footer. */
+  .footer__logo,
+  .footer__axte {
+    display: block;
+    background-color: currentColor;
+    mask: var(--logo-source) center / contain no-repeat;
+  }
+
+  .footer__logo {
+    width: 100%;
+  }
+
+  .footer__universes {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(0.75rem, 2.7vw, 3rem);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__universe {
+    container-type: inline-size;
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+
+  /* Equivalente visual al degradado de forma libre, sin afectar al texto. */
+  .footer__universe::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(ellipse at 30% 25%, #fff 0 15%, transparent 55%),
+      radial-gradient(ellipse at 78% 82%, #7566ff, transparent 58%),
+      radial-gradient(ellipse at 8% 72%, #e4a4ff, transparent 60%),
+      radial-gradient(ellipse at 68% 8%, #8bb8ff, transparent 60%),
+      #fff;
+    opacity: var(--circle-opacity);
+    pointer-events: none;
+  }
+
+  .footer__wordmark {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: max-content;
+    max-width: 90%;
+    gap: 0.12em;
+    font-size: clamp(0.875rem, 25cqi, 3.5rem);
+    line-height: 1;
+  }
+
+  .footer__axte {
+    width: 1.45em;
+    flex-shrink: 0;
+  }
+
+  .footer__name {
+    display: block;
+    padding-block: 0.04em;
+    font-family: var(--font-secondary, var(--font-primary));
+    font-size: 1em;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+  }
+
+  .footer__main {
+    position: relative;
+    /* Illustrator -16.1047° equivale a 106.1047° en CSS. */
+    background: linear-gradient(106.1047deg, var(--links-start) 14.5%, var(--links-end));
+    color: #06082b;
+  }
+
+  .footer__columns {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 0.9fr 1.2fr 1.25fr 1fr;
+    gap: clamp(1.5rem, 5vw, 6rem);
+    max-width: 92rem;
+    min-height: 25rem;
+    padding-block: 3rem 3.5rem;
+    font-family: var(--font-body, var(--font-primary));
+    font-size: clamp(1rem, 1.45vw, 1.625rem);
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .footer__columns > * {
+    min-width: 0;
+  }
+
+  .footer__title {
+    margin: 0 0 1.75rem;
+    color: inherit;
+    font-family: var(--font-primary);
+    font-size: clamp(1.25rem, 2vw, 2rem);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .footer__links {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__links a,
+  .footer__phone {
+    color: inherit;
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+    overflow-wrap: break-word;
+  }
+
+  .footer__phone {
+    display: inline-block;
+  }
+
+  .footer__socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__social {
+    display: grid;
+    place-items: center;
+    width: clamp(2.25rem, 2.5vw, 2.75rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .footer__social svg {
+    width: 66%;
+    height: 66%;
+    fill: currentColor;
+  }
+
+  .footer__top {
+    box-sizing: border-box;
+    position: absolute;
+    right: clamp(1.25rem, 2.25vw, 2.5rem);
+    bottom: 1.75rem;
+    display: grid;
+    place-items: center;
+    width: clamp(4.5rem, 7.5vw, 8.75rem);
+    aspect-ratio: 1;
+    border: clamp(3px, 0.35vw, 6px) solid #7373ff;
+    border-radius: 50%;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .footer__top::before {
+    content: "";
+    position: absolute;
+    inset: 7%;
+    border-radius: inherit;
+    background: #7373ff;
+    pointer-events: none;
+  }
+
+  .footer__top svg {
+    position: relative;
+    width: 62%;
+    height: 62%;
+    fill: currentColor;
+  }
+
+  .footer a:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 5px;
+  }
+
+  .footer__social:focus-visible,
+  .footer__top:focus-visible {
+    outline-color: #06082b;
+  }
+
+  @media (hover: hover) {
+    .footer__links a:hover,
+    .footer__phone:hover {
+      text-decoration: underline;
+    }
+
+    a.footer__social:hover {
+      background: #323643;
+    }
+
+    .footer__top:hover::before {
+      background: #6259e8;
+    }
+  }
+
+  .footer__copyright {
+    padding: 1.25rem var(--footer-gutter);
+    background: radial-gradient(
+      ellipse at center,
+      var(--copyright-center) 6.6292%,
+      var(--copyright-edge) 100%
+    );
+    color: #fff;
+    font-family: var(--font-body, var(--font-primary));
+    font-size: clamp(0.875rem, 1.45vw, 1.625rem);
+    line-height: 1.5;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .footer__copyright p {
+    margin: 0;
+  }
+
+  .footer__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Desktop-first: lg. */
+  @media (width < 64rem) {
+    .footer__brands {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2rem;
+    }
+
+    .footer__brand {
+      justify-self: center;
+      width: 15rem;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .footer__universes {
+      gap: 1rem;
+    }
+
+    .footer__columns {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.5rem 2rem;
+      min-height: 0;
+      padding-block: 2.5rem;
+      font-size: 1rem;
+    }
+
+    .footer__title {
+      margin-bottom: 1.25rem;
+      font-size: 1.5rem;
+    }
+
+    .footer__top {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      width: 5rem;
+      margin-top: 1.5rem;
+      margin-left: auto;
+    }
+  }
+
+  /* Desktop-first: sm. */
+  @media (width < 40rem) {
+    .footer__brands {
+      padding-block: 2rem;
+    }
+
+    .footer__brand {
+      width: 13rem;
+    }
+
+    .footer__universes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.75rem, 3vw, 1.25rem);
+    }
+
+    .footer__universe {
+      flex: 0 0 clamp(5rem, 24vw, 7.5rem);
+    }
+
+    .footer__columns {
+      gap: 2rem 1.25rem;
+      font-size: 0.875rem;
+    }
+
+    .footer__title {
+      font-size: 1.125rem;
+    }
+
+    .footer__links {
+      gap: 0.625rem;
+    }
+
+    .footer__socials {
+      display: grid;
+      grid-template-columns: repeat(2, 2.25rem);
+      gap: 0.625rem;
+      margin-top: 1rem;
+    }
+
+    .footer__top {
+      width: 4.5rem;
+    }
+
+    .footer__copyright {
+      padding-block: 1rem;
+    }
+  }
+</style>
