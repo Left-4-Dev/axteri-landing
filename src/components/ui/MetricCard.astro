@@ -1,0 +1,118 @@
+---
+interface Props {
+  value: number;
+  title: string;
+  description: string;
+  prefix?: string;
+  index: number;
+}
+const { value, title, description, prefix, index } = Astro.props;
+---
+
+<article class="metric" data-reveal>
+  <div class="metric__chart">
+    <svg class="metric__ring" viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="metric__track" cx="100" cy="100" r="80" />
+      <circle
+        class="metric__value"
+        cx="100"
+        cy="100"
+        r="80"
+        pathLength="100"
+        stroke-dasharray={`${value} ${100 - value}`}
+        style={`--ring-color:${["#8fc9f3", "#9cbbff", "#a2a6ff", "#a1b9ff", "#a29bff", "#9b92f4"][index]}`}
+      />
+    </svg>
+    <div class="metric__label">
+      {prefix && <span>{prefix}</span>}
+      <strong>{value}%</strong>
+    </div>
+  </div>
+  <h3 class="metric__title">{title}</h3>
+  <p class="metric__description">{description}</p>
+</article>
+<style>
+  .metric {
+    text-align: center;
+  }
+  .metric__chart {
+    /* r=80 y stroke-width=27 → radio interior=66.5.
+      El círculo blanco ocupa el 66.5% del viewBox. */
+    --inner-inset: 16.75%;
+    --inner-shadow:
+      16.7657px 16.7657px 11.9755px
+      rgb(175 157 209 / 75%);
+
+    position: relative;
+    isolation: isolate;
+    width: min(100%, 15rem);
+    aspect-ratio: 1;
+    margin: 0 auto 1.5rem;
+  }
+  /* Dos sombras superpuestas, cada una en Multiplicar. */
+  .metric__chart::before,
+  .metric__chart::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: var(--inner-inset);
+    border-radius: 50%;
+    box-shadow: var(--inner-shadow);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  .metric__ring {
+    position: relative;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .metric__track{
+    fill: none;
+    stroke-width: 28;
+    stroke: #737c93;
+  }
+  .metric__value {
+    fill: none;
+    stroke-width: 36;
+    stroke: var(--ring-color);
+  }
+  /* Único círculo blanco, por encima de las sombras. */
+  .metric__label {
+    position: absolute;
+    z-index: 2;
+    inset: var(--inner-inset);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    background: #fff;
+    color: #323643;
+  }
+  .metric__label span {
+    text-transform: uppercase;
+    font-size: 1rem;
+  }
+  .metric__label strong {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  .metric__title {
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+  .metric__description {
+    font-size: 0.95rem;
+    color: var(--color-muted);
+    margin-top: 0.5rem;
+    max-width: 23rem;
+    margin-inline: auto;
+  }
+</style>

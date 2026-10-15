@@ -1,0 +1,193 @@
+---
+import { Image } from "astro:assets";
+import playIcon from "@public/icons/play.svg";
+import SectionHeading from "@components/ui/SectionHeading.astro";
+import MetricCard from "@components/ui/MetricCard.astro";
+import { benefits } from "@data/benefits";
+---
+
+<section class="benefits section" aria-labelledby="benefits-title">
+  <div class="container">
+    <SectionHeading
+      id="benefits-title"
+      prefix="Nuestros"
+      accent="beneficios"
+      description="Ayudamos a que las empresas compren de forma más estratégica, precisa y rentable, eliminando pérdidas, reprocesos y compras de emergencia."
+    />
+    <div class="benefits__grid">
+      {benefits.map((benefit, index) => (
+        <MetricCard {...benefit} index={index} />
+      ))}
+    </div>
+    <!-- <div class="benefits__comparison" data-reveal>
+      <div>
+        <h3>Antes</h3>
+        <p>De 2 a 3 horas revisando catálogos, WhatsApp o llamadas.</p>
+      </div>
+      <span class="benefits__separator" aria-hidden="true"></span>
+      <div>
+        <h3>Después</h3>
+        <p>Menos de 10 minutos con filtros técnicos y búsqueda con IA.</p>
+      </div>
+    </div> -->
+    <div class="benefits__comparison" data-reveal>
+      <div>
+        <h3>Antes</h3>
+        <p>De 2 a 3 horas revisando catálogos, WhatsApp o llamadas.</p>
+      </div>
+      <Image
+        class="benefits__arrow"
+        src={playIcon}
+        alt=""
+        aria-hidden="true"
+        width={32}
+        height={36}
+        loading="lazy"
+      />
+      <div>
+        <h3>Después</h3>
+        <p>Menos de 10 minutos con filtros técnicos y búsqueda con IA.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .benefits {
+    padding-top: 1rem;
+    background: linear-gradient(
+      var(--color-background) 65%,
+      #eee5ff66
+    );
+  }
+
+  .benefits__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem 2.5rem;
+  }
+
+  .benefits__comparison {
+    --connector-color: #a497ff;
+    --connector-length: 3.5rem;
+    --connector-width: 0.5rem;
+    --connector-dot: 2rem;
+
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1rem, 2vw, 2rem);
+
+    max-width: 50rem;
+    min-height: 14rem;
+    margin:
+      calc(2rem + var(--connector-length) + var(--connector-dot) / 2)
+      auto 0;
+    padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+
+    border-radius: 999px;
+    background: var(--gradient-brand);
+    box-shadow: 6px 8px 12px rgb(66 55 105 / 25%);
+
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* Propiedades comunes del conector. */
+  .benefits__comparison::before,
+  .benefits__comparison::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  /* Línea superior con un pequeño solapamiento. */
+  .benefits__comparison::before {
+    top: calc(0px - var(--connector-length));
+    width: var(--connector-width);
+    height: calc(var(--connector-length) + 1px);
+    background: var(--connector-color);
+  }
+
+  /* Círculo superior con centro blanco. */
+  .benefits__comparison::after {
+    top: calc(
+      0px - var(--connector-length) - var(--connector-dot) / 2
+    );
+
+    box-sizing: border-box;
+    width: var(--connector-dot);
+    height: var(--connector-dot);
+    border: 0.625rem solid var(--connector-color);
+    border-radius: 50%;
+    background: #fff;
+  }
+
+  .benefits__comparison > div {
+    min-width: 0;
+  }
+
+  .benefits__comparison h3 {
+    margin: 0 0 1rem;
+    color: inherit;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .benefits__comparison p {
+    max-width: 22rem;
+    margin: 0 auto;
+    color: inherit;
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 1.25vw, 1rem);
+    line-height: 1.5;
+    text-wrap: balance;
+  }
+
+  .benefits__arrow {
+    display: block;
+    justify-self: center;
+    width: 2rem;
+    height: 2.25rem;
+    object-fit: contain;
+  }
+
+  /* lg: menos de 1024px */
+  @media (width < 64rem) {
+    .benefits__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.5rem 1.5rem;
+    }
+  }
+
+  /* md: menos de 768px */
+  @media (width < 48rem) {
+    .benefits__comparison {
+      --connector-length: 3rem;
+
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+      min-height: auto;
+      padding: 2.5rem 1.5rem;
+      border-radius: 2.5rem;
+    }
+
+    .benefits__arrow {
+      width: 1.5rem;
+      height: 1.75rem;
+      transform: rotate(90deg);
+    }
+  }
+
+  /* sm: menos de 640px */
+  @media (width < 40rem) {
+    .benefits__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+  }
+</style>
