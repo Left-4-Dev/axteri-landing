@@ -1,7 +1,7 @@
 const menu = document.querySelector<HTMLButtonElement>(".header__menu");
 const nav = document.querySelector<HTMLElement>("#main-navigation");
 if (menu && nav) {
-  const mobile = matchMedia("(max-width: 58rem)");
+  const mobile = matchMedia("(width < 64rem)");
   nav.classList.add("header__nav--enhanced");
   const close = () => {
     menu.setAttribute("aria-expanded", "false");

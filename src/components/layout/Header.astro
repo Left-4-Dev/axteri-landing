@@ -15,11 +15,12 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
     <button
       class="header__menu"
       type="button"
+      aria-label="Menú principal"
       aria-expanded="false"
       aria-controls="main-navigation"
       hidden
     >
-      Menú <span aria-hidden="true">☰</span>
+      <span class="header__menu-icon" aria-hidden="true"></span>
     </button>
     <nav
       class="header__nav"
@@ -208,35 +209,229 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
     .header__link[aria-current]:not([aria-current="false"]) {
     color: #c9c6ff;
   }
-  @media (max-width: 58rem) {
+  /* Evita que display: grid sobrescriba el atributo hidden. */
+  .header__menu[hidden],
+  .header__theme[hidden] {
+    display: none;
+  }
+
+  /* lg: tablet y móvil. */
+  @media (width < 64rem) {
     .header__inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
       gap: 0.75rem;
       min-height: 5.25rem;
+      padding-block: 0.75rem;
     }
+
+    .brand {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: start;
+      min-width: 0;
+    }
+
     .brand__logo {
-      width: 140px;
+      width: 9rem;
+      max-width: 100%;
+      height: auto;
     }
+
     .header__menu {
-      margin-left: auto;
-    }
-    .header__nav {
-      order: 3;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem 1.5rem;
-      width: 100%;
+      box-sizing: border-box;
+      grid-column: 2;
+      grid-row: 1;
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      min-height: 0;
       margin: 0;
-      padding-block: 0.5rem;
+      padding: 0;
+      border: 1px solid rgb(50 54 67 / 25%);
+      border-radius: 0.75rem;
+      background: rgb(255 255 255 / 45%);
+      color: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
+
+    .header__menu-icon {
+      position: relative;
+      display: block;
+      width: 1.125rem;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      transition: background-color 180ms ease;
+    }
+
+    .header__menu-icon::before,
+    .header__menu-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      border-radius: inherit;
+      background: currentColor;
+      transition: transform 180ms ease;
+    }
+
+    .header__menu-icon::before {
+      top: -6px;
+    }
+
+    .header__menu-icon::after {
+      top: 6px;
+    }
+
+    .header__menu[aria-expanded="true"] .header__menu-icon {
+      background: transparent;
+    }
+
+    .header__menu[aria-expanded="true"] .header__menu-icon::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .header__menu[aria-expanded="true"] .header__menu-icon::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .header__theme {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+    }
+
+    .header__nav {
+      box-sizing: border-box;
+      grid-column: 1 / -1;
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      gap: 0.25rem;
+
+      width: 100%;
+      min-width: 0;
+      margin: 0;
+      padding: 0.75rem;
+
+      border: 1px solid rgb(115 121 255 / 20%);
+      border-radius: 1rem;
+      background: linear-gradient(115deg, #d6eefe, #e4dfff);
+      box-shadow: 0 12px 30px rgb(50 54 67 / 18%);
+
+      max-height: calc(100vh - 7rem);
+      max-height: calc(100dvh - 7rem);
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+    }
+
+    /* El panel flotante se activa cuando el script está disponible. */
     .header__nav--enhanced {
+      position: absolute;
+      top: calc(100% + 0.25rem);
+      right: 0;
+      left: 0;
+      z-index: 1;
       display: none;
     }
+
     .header__nav--open {
       display: flex;
     }
+
+    .header__link {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+      min-height: 3rem;
+      padding: 0.875rem 1rem;
+      border-radius: 0.625rem;
+
+      color: inherit;
+      font-size: 1rem;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .header__link::after {
+      right: 35%;
+      bottom: 0.4rem;
+      left: 35%;
+    }
+
+    .header__link:hover,
+    .header__link:focus-visible,
+    .header__link[aria-current]:not([aria-current="false"]) {
+      background: rgb(255 255 255 / 45%);
+    }
+
+    .header__link:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: -2px;
+    }
+
+    :global([data-theme="dark"]) .header__menu {
+      border-color: rgb(255 255 255 / 25%);
+      background: rgb(255 255 255 / 8%);
+    }
+
+    :global([data-theme="dark"]) .header__nav {
+      border-color: rgb(201 198 255 / 20%);
+      background: linear-gradient(115deg, #253b66, #36325d);
+      box-shadow: 0 12px 30px rgb(0 0 0 / 25%);
+    }
+
+    :global([data-theme="dark"]) .header__link:hover,
+    :global([data-theme="dark"]) .header__link:focus-visible,
+    :global([data-theme="dark"])
+      .header__link[aria-current]:not([aria-current="false"]) {
+      background: rgb(255 255 255 / 8%);
+    }
   }
+
+  /* sm: móviles pequeños. */
+  @media (width < 40rem) {
+    .header__inner {
+      gap: 0.5rem;
+      min-height: 4.75rem;
+      padding-block: 0.625rem;
+    }
+
+    .brand__logo {
+      width: clamp(7.5rem, 36vw, 8.75rem);
+    }
+
+    .header__theme {
+      --toggle-width: 3rem;
+      --toggle-height: 1.625rem;
+    }
+
+    .header__nav {
+      padding: 0.5rem;
+      max-height: calc(100vh - 6rem);
+      max-height: calc(100dvh - 6rem);
+    }
+
+    .header__link {
+      font-size: 0.9375rem;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .header__link::after,
+    .header__menu-icon,
+    .header__menu-icon::before,
+    .header__menu-icon::after,
     .header__theme-thumb,
     .header__theme-icon {
       transition: none;

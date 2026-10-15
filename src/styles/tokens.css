@@ -1,13 +1,15 @@
 /*
- * Breakpoints compartidos — mobile-first
+ * Breakpoints compartidos — desktop-first
  *
- * sm:  40rem  / 640px
- * md:  48rem  / 768px
- * lg:  64rem  / 1024px
- * xl:  80rem  / 1280px
- * 2xl: 96rem  / 1536px
+ * sm:  40rem / 640px
+ * md:  48rem / 768px
+ * lg:  64rem / 1024px
+ * xl:  80rem / 1280px
+ * 2xl: 96rem / 1536px
  *
- * Los estilos base cubren los anchos inferiores a sm.
+ * Los estilos base definen el diseño de escritorio.
+ * Las adaptaciones se aplican por debajo de cada breakpoint,
+ * ordenadas de mayor a menor.
  * Cada componente usa solo los breakpoints que necesita.
  */
 :root {
