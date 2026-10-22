@@ -124,6 +124,58 @@ export function bindHover(
   };
 }
 
+/**
+ * Manages a continuous internal SVG loop timeline:
+ * - Pauses automatically when `trigger` is outside the viewport.
+ * - Pauses automatically when the browser tab is hidden (`visibilitychange`).
+ * - Resumes smoothly when both in-viewport and tab-visible conditions hold.
+ * - Cleans up listeners, ScrollTrigger, and inline SVG styles on teardown.
+ */
+export function bindLoop(
+  trigger: Element,
+  build: () => gsap.core.Timeline,
+): () => void {
+  const timeline = build();
+  timeline.pause();
+
+  let inViewport = false;
+  const syncPlayback = () => {
+    if (inViewport && document.visibilityState !== "hidden") {
+      timeline.play();
+    } else {
+      timeline.pause();
+    }
+  };
+
+  const st = ScrollTrigger.create({
+    trigger,
+    start: "top bottom",
+    end: "bottom top",
+    onToggle: (self) => {
+      inViewport = self.isActive;
+      syncPlayback();
+    },
+    onRefresh: (self) => {
+      inViewport = self.isActive;
+      syncPlayback();
+    },
+  });
+
+  inViewport = st.isActive;
+  syncPlayback();
+
+  const abort = new AbortController();
+  document.addEventListener("visibilitychange", syncPlayback, {
+    signal: abort.signal,
+  });
+
+  return () => {
+    abort.abort();
+    st.kill();
+    timeline.revert();
+  };
+}
+
 // Web fonts change text metrics after the first layout: re-measure the triggers.
 document.fonts?.ready.then(() => ScrollTrigger.refresh());
 

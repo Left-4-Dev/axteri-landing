@@ -1,7 +1,6 @@
 ---
-import { Image } from "astro:assets";
 import SectionHeading from "@components/ui/SectionHeading.astro";
-import audience from "@assets/illustrations/audience.svg?url";
+import AudienceIllustration from "@assets/illustrations/audience.svg";
 ---
 
 <section class="audience section" aria-labelledby="audience-title">
@@ -21,13 +20,11 @@ import audience from "@assets/illustrations/audience.svg?url";
         les permitan ampliar su alcance y optimizar sus canales de venta.
       </p>
     </article>
-    <Image
-      src={audience}
+    <AudienceIllustration
       class="audience__image"
-      alt="Una compradora recibe un paquete mediante una tienda digital"
-      width={380}
-      height={285}
-      loading="lazy"
+      role="img"
+      aria-label="Una compradora recibe un paquete mediante una tienda digital"
+      focusable="false"
     />
     <article class="audience__panel audience__panel--buyers" data-reveal>
       <h3>Compradores</h3>
@@ -76,7 +73,9 @@ import audience from "@assets/illustrations/audience.svg?url";
   }
   .audience__image {
     width: 100%;
+    height: auto;
     border-radius: 1rem;
+    overflow: visible;
   }
   @media (width < 80rem) {
     .audience__layout {

@@ -1,5 +1,6 @@
 import { gsap } from "@scripts/animations/gsap";
 import {
+  bindLoop,
   createMotion,
   distance,
   duration,
@@ -14,6 +15,9 @@ import {
  * right, scaling from the side that touches the symbol); below lg they stack and
  * simply rise. Bubble tails are ::after pseudo-elements and travel with the
  * bubble, so their size and position never change.
+ *
+ * Inside `.assistant__image`, `<g data-axter="wave">` runs a continuous voice
+ * modulation loop so the AI assistant waveform feels alive and responsive.
  */
 const root = document.querySelector<HTMLElement>(".assistant");
 if (root) {
@@ -22,6 +26,8 @@ if (root) {
     ({ conditions, markPlayed }) => {
       const desktop = conditions["lg"] === true;
       const bubbles = gsap.utils.toArray<HTMLElement>(".assistant__bubble", root);
+      const svg = root.querySelector<SVGSVGElement>(".assistant__image");
+      const waveGroup = svg?.querySelector<SVGGElement>('[data-axter="wave"]');
       const wave = root.querySelector<SVGPathElement>(".assistant__image path");
 
       gsap.from([".assistant__title-curve", ".assistant__subtitle"], {
@@ -125,6 +131,41 @@ if (root) {
               },
           bubblesAt + index * 0.16,
         );
+      });
+
+      if (!svg || !waveGroup) return;
+
+      return bindLoop(svg, () => {
+        const loop = gsap.timeline({
+          repeat: -1,
+          defaults: { ease: "sine.inOut", svgOrigin: "224.66 124.84" },
+        });
+        loop
+          .to(waveGroup, {
+            scaleY: 1.08,
+            scaleX: 0.99,
+            y: -2.2,
+            duration: 1.15,
+          })
+          .to(waveGroup, {
+            scaleY: 0.93,
+            scaleX: 1.008,
+            y: 1.8,
+            duration: 1.05,
+          })
+          .to(waveGroup, {
+            scaleY: 1.05,
+            scaleX: 0.995,
+            y: -1.4,
+            duration: 1.1,
+          })
+          .to(waveGroup, {
+            scaleY: 1,
+            scaleX: 1,
+            y: 0,
+            duration: 1.2,
+          });
+        return loop;
       });
     },
     { lg: "(width >= 64rem)" },

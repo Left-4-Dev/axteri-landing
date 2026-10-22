@@ -1,6 +1,7 @@
 import { gsap } from "@scripts/animations/gsap";
 import {
   bindHover,
+  bindLoop,
   createMotion,
   distance,
   ease,
@@ -162,12 +163,135 @@ if (root) {
         });
       }
 
-      return bindHover(
+      const stopHover = bindHover(
         items,
         (item) => item.querySelector(".services__icon"),
         { scale: 1.1, rotate: 4, duration: 0.35, ease: ease.soft },
         { scale: 1, rotate: 0, duration: 0.45, ease: ease.soft },
       );
+
+      const centerSvg = root.querySelector<SVGSVGElement>(".services__center-image");
+      if (!centerSvg) return stopHover;
+
+      const stopLoop = bindLoop(centerSvg, () => {
+        const q = gsap.utils.selector(centerSvg);
+        const storefront = q('[data-marketplace="storefront"]');
+        const awning = q('[data-marketplace="awning"]');
+        const cols = q('[data-marketplace="col-left"], [data-marketplace="col-right"]');
+        const product = q('[data-marketplace="product"]');
+        const cta = q('[data-marketplace="cta"]');
+
+        const loop = gsap.timeline({
+          repeat: -1,
+          defaults: { ease: "sine.inOut" },
+        });
+
+        if (storefront.length) {
+          loop
+            .to(
+              storefront,
+              {
+                y: -2,
+                svgOrigin: "105 68",
+                duration: 2.5,
+              },
+              0,
+            )
+            .to(
+              storefront,
+              {
+                y: 0,
+                svgOrigin: "105 68",
+                duration: 2.5,
+              },
+              2.5,
+            );
+        }
+
+        if (awning.length) {
+          loop.to(
+            awning,
+            {
+              scaleY: 1.035,
+              y: 0.8,
+              svgOrigin: "105 4",
+              duration: 1.25,
+              yoyo: true,
+              repeat: 3,
+            },
+            0,
+          );
+        }
+
+        if (cols.length) {
+          loop.to(
+            cols,
+            {
+              opacity: 0.68,
+              duration: 1.1,
+              stagger: 0.25,
+              yoyo: true,
+              repeat: 3,
+            },
+            0,
+          );
+        }
+
+        if (product.length) {
+          loop
+            .to(
+              product,
+              {
+                scale: 1.06,
+                svgOrigin: "126 78.5",
+                duration: 0.38,
+                ease: "back.out(2)",
+              },
+              1.0,
+            )
+            .to(
+              product,
+              {
+                scale: 1,
+                svgOrigin: "126 78.5",
+                duration: 0.5,
+                ease: "power2.out",
+              },
+              1.65,
+            );
+        }
+
+        if (cta.length) {
+          loop
+            .to(
+              cta,
+              {
+                scale: 1.08,
+                svgOrigin: "126 103.3",
+                duration: 0.32,
+                ease: "back.out(2.2)",
+              },
+              1.35,
+            )
+            .to(
+              cta,
+              {
+                scale: 1,
+                svgOrigin: "126 103.3",
+                duration: 0.45,
+                ease: "power2.out",
+              },
+              1.85,
+            );
+        }
+
+        return loop;
+      });
+
+      return () => {
+        stopHover();
+        stopLoop();
+      };
     },
     { lg: "(width >= 64rem)" },
   );
