@@ -47,6 +47,7 @@ const groups = [
             role="region"
             aria-labelledby={`${group.id}-title`}
             data-feature-track
+            data-lenis-prevent-horizontal
           >
             {group.features.map((feature, index) => (
               <FeatureCard feature={feature} index={index} groupId={group.id} />

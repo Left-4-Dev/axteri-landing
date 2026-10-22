@@ -55,3 +55,29 @@ a {
     scroll-behavior: auto;
   }
 }
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis,
+html.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch] {
+  overscroll-behavior: contain;
+}
+.lenis [data-lenis-prevent-vertical] {
+  overscroll-behavior-y: contain;
+}
+.lenis [data-lenis-prevent-horizontal] {
+  overscroll-behavior-x: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
