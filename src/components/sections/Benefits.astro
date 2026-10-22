@@ -40,6 +40,9 @@ import { benefits } from "@data/benefits";
     </div>
   </div>
 </section>
+<script>
+  import "@scripts/animations/benefits";
+</script>
 <style>
   .benefits {
     padding-top: 1rem;
@@ -99,6 +102,8 @@ import { benefits } from "@data/benefits";
     width: var(--connector-width);
     height: calc(var(--connector-length) + 1px);
     background: var(--connector-color);
+    /* 1 = line fully drawn. animations/benefits.ts grows it upwards from the pill. */
+    clip-path: inset(calc((1 - var(--connector-reveal, 1)) * 100%) 0 0 0);
   }
 
   /* Círculo superior con centro blanco. */
@@ -113,6 +118,7 @@ import { benefits } from "@data/benefits";
     border: 0.625rem solid var(--connector-color);
     border-radius: 50%;
     background: var(--color-white);
+    transform: translateX(-50%) scale(var(--connector-dot-scale, 1));
   }
 
   .benefits__comparison > div {

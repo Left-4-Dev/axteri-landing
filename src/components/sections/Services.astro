@@ -71,6 +71,9 @@ const services = [
     </div>
   </div>
 </section>
+<script>
+  import "@scripts/animations/services";
+</script>
 <style>
   .services {
     --service-shadow: 5px 7px 10px rgb(48 52 65 / 22%);
@@ -137,6 +140,9 @@ const services = [
     height: var(--connector-thickness);
     border-radius: 0 999px 999px 0;
     background: var(--connector-color);
+    /* 1 = connector fully drawn. animations/services.ts drives it from 0 to 1,
+       revealing the bar from the central hub towards the icon. */
+    clip-path: inset(0 0 0 calc((1 - var(--connector-reveal, 1)) * 100%));
     transform-origin: 0 50%;
     transform:
       translateY(-50%)
@@ -157,6 +163,7 @@ const services = [
     height: auto;
     border-radius: var(--radius-pill);
     transform: translateX(-50%);
+    clip-path: inset(0 0 calc((1 - var(--connector-reveal, 1)) * 100%) 0);
     background: linear-gradient(
       to bottom,
       var(--connector-color) 0,
@@ -187,7 +194,8 @@ const services = [
           + var(--connector-gap)
           + var(--connector-dot-size) / 2
         )
-      );
+      )
+      scale(var(--connector-dot-scale, 1));
     pointer-events: none;
   }
   .services__icon {

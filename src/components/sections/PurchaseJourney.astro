@@ -81,6 +81,7 @@ const route = steps
           >
             <g filter="url(#journey-merge)">
               <path
+                data-journey-path
                 d={route}
                 fill="none"
                 stroke="white"
@@ -91,6 +92,7 @@ const route = steps
 
               {steps.map((step) => (
                 <circle
+                  data-journey-node
                   cx={step.x}
                   cy={step.y}
                   r={diagram.radius}
@@ -102,6 +104,7 @@ const route = steps
             <!-- Vacía el centro de cada círculo. -->
             {steps.map((step) => (
               <circle
+                data-journey-hole
                 cx={step.x}
                 cy={step.y}
                 r={diagram.innerRadius}
@@ -148,6 +151,9 @@ const route = steps
     </div>
   </div>
 </section>
+<script>
+  import "@scripts/animations/journey";
+</script>
 
 <style>
   .journey { padding-top: 1rem; }
@@ -256,6 +262,8 @@ const route = steps
       left: calc(var(--mobile-node-size) / 2);
       width: 0.3rem;
       background: var(--route-color);
+      /* 1 = line fully drawn. animations/journey.ts grows it with the steps. */
+      clip-path: inset(0 0 calc((1 - var(--route-progress, 1)) * 100%) 0);
       transform: translateX(-50%);
       pointer-events: none;
     }

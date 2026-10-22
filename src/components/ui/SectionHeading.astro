@@ -15,6 +15,9 @@ const { prefix, accent, description, light = false, id } = Astro.props;
   </h2>
   {description && <p class="section-heading__description">{description}</p>}
 </div>
+<script>
+  import "@scripts/animations/reveal";
+</script>
 <style>
   .section-heading {
     text-align: center;

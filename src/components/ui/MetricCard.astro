@@ -31,6 +31,9 @@ const { value, title, description, prefix, index } = Astro.props;
   <h3 class="metric__title">{title}</h3>
   <p class="metric__description">{description}</p>
 </article>
+<script>
+  import "@scripts/animations/metrics";
+</script>
 <style>
   .metric {
     text-align: center;

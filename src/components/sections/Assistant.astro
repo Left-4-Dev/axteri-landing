@@ -1,6 +1,5 @@
 ---
-import { Image } from "astro:assets";
-import axter from "@assets/illustrations/axter.svg?url";
+import Axter from "@assets/illustrations/axter.svg";
 const capabilities = [
   "Te ayudo con cotizaciones rápidas.",
   "Respondo tus consultas básicas en cada área.",
@@ -39,13 +38,12 @@ const capabilities = [
     <p class="assistant__subtitle">Tu asistente IA virtual</p>
     <div class="assistant__layout">
       <div class="assistant__image-wrapper">
-        <Image
-          src={axter}
+        <!-- Inline so GSAP can draw the waveform path (DrawSVG); same file, same drawing. -->
+        <Axter
           class="assistant__image"
-          width={360}
-          height={360}
-          loading="lazy"
-          alt="Símbolo de Axter"
+          role="img"
+          aria-label="Símbolo de Axter"
+          focusable="false"
         />
       </div>
       <ul class="assistant__list">
@@ -61,6 +59,9 @@ const capabilities = [
     </div>
   </div>
 </section>
+<script>
+  import "@scripts/animations/assistant";
+</script>
 <style>
   .assistant {
     padding-top: 0;
@@ -134,6 +135,9 @@ const capabilities = [
 
     border-radius: 999px 999px 0 0;
     background: var(--circle-color);
+    /* 1 = connector fully drawn. animations/assistant.ts grows it upwards
+       from the circle. */
+    clip-path: inset(calc((1 - var(--connector-reveal, 1)) * 100%) 0 0 0);
 
     transform: translateX(-50%);
     pointer-events: none;
