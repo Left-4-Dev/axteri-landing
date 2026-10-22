@@ -80,7 +80,7 @@ const groups = [
 </section>
 
 <script>
-  import "../../scripts/features";
+  import "@scripts/features";
 </script>
 
 <style>
@@ -92,7 +92,7 @@ const groups = [
   }
   .features__band + .features__band { margin-top: 2.5rem; }
   .features__band--buyers { background: linear-gradient(110deg, #aacbff, #b2a9ff); }
-  .features__layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 2rem; }
+  .features__layout { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: var(--space-4); }
   .features__intro { min-width: 0; align-self: center; }
   .features__title {
     margin: 0;
@@ -102,7 +102,7 @@ const groups = [
     font-weight: 400;
     color: #252c48;
   }
-  .features__title strong { display: block; color: #5145cf; font-weight: 800; }
+  .features__title strong { display: block; color: var(--color-accent-fixed); font-weight: var(--font-weight-strong); }
   .features__art { position: relative; width: 100%; aspect-ratio: 1; margin-top: 2rem; }
   .features__image {
     position: absolute;
@@ -112,13 +112,13 @@ const groups = [
     object-fit: contain;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 180ms ease, visibility 180ms ease;
+    transition: opacity var(--transition-fast), visibility var(--transition-fast);
   }
   .features__image--active { opacity: 1; visibility: visible; }
   .features__carousel { min-width: 0; }
   .features__cards {
     --feature-width: min(20rem, calc(100% - 1.5rem));
-    --feature-gap: 1.5rem;
+    --feature-gap: var(--space-3);
     display: flex;
     align-items: stretch;
     gap: var(--feature-gap);
@@ -128,7 +128,7 @@ const groups = [
     scroll-snap-type: x mandatory;
     overscroll-behavior-x: contain;
     scrollbar-width: thin;
-    scrollbar-color: #7770ff transparent;
+    scrollbar-color: var(--color-violet) transparent;
   }
   /* Permite que la última tarjeta también alcance el borde de selección. */
   .features__cards::after {
@@ -144,7 +144,7 @@ const groups = [
     padding: 0;
     border: 0;
     background: transparent;
-    color: #5145cf;
+    color: var(--color-accent-fixed);
     cursor: pointer;
   }
   .features__arrow { border-radius: 50%; background: rgb(255 255 255 / 35%); }
@@ -160,11 +160,10 @@ const groups = [
   .features__band--buyers .features__controls { direction: rtl; }
   .features__band--buyers .features__arrow svg { transform: rotate(180deg); }
 
-  /* Escala compartida: 40rem, 48rem, 64rem, 80rem y 96rem.
-     Esta sección solo necesita cambios de distribución en 64rem y 40rem. */
-  @media (max-width: 64rem) {
+  /* La introducción pasa encima del carrusel antes de estrechar las tarjetas. */
+  @media (width < 80rem) {
     .features__layout,
-    .features__band--buyers .features__layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    .features__band--buyers .features__layout { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
     .features__intro,
     .features__band--buyers .features__intro {
       grid-column: auto;
@@ -172,18 +171,27 @@ const groups = [
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      gap: var(--space-2);
       text-align: left;
     }
     .features__band--buyers .features__carousel { grid-column: auto; grid-row: auto; }
     .features__art { flex: 0 0 9rem; width: 9rem; margin: 0; }
   }
-  @media (max-width: 40rem) {
+  @media (width < 40rem) {
     .features__band { padding-block: 2rem; }
     .features__art { flex-basis: 6rem; width: 6rem; }
-    .features__title { font-size: clamp(1.125rem, 5vw, 1.5rem); }
-    .features__cards { --feature-gap: 1rem; }
-    .features__dot { width: 2.25rem; }
+    .features__title { font-size: clamp(1.25rem, 5vw, 1.5rem); }
+    .features__cards {
+      --feature-width: min(22rem, calc(100% - 0.5rem));
+      --feature-gap: var(--space-2);
+    }
+    .features__controls {
+      /* Utiliza parte del gutter para alojar siete controles de 44px a 320px. */
+      width: calc(100% + 2rem);
+      margin-inline: -1rem;
+      gap: 0;
+    }
+    .features__arrow, .features__dot { flex-shrink: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .features__image { transition: none; }

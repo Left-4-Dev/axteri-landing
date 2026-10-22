@@ -1,4 +1,5 @@
 ---
+import Action from "@components/ui/Action.astro";
 import { Image } from "astro:assets";
 import partnership from "@assets/illustrations/partnership.webp";
 import { registrationUrl, contact } from "@data/navigation";
@@ -28,12 +29,13 @@ import { registrationUrl, contact } from "@data/navigation";
         vendan de manera digital? Puedes ser parte de nuestra plataforma y
         llegar a más clientes en todo el Perú.
       </p>
-      <a
+      <Action
+        variant="partnership"
         class="partnership__action"
         href={registrationUrl ?? contact.href}
       >
         Únete
-      </a>
+      </Action>
     </div>
   </div>
 </section>
@@ -44,14 +46,14 @@ import { registrationUrl, contact } from "@data/navigation";
     --section-start: #7379f6;
     --section-end: #9890f1;
     --circle-start: #b1acff;
-    --circle-end: #a0d5fd;
+    --circle-end: var(--color-sky);
     --shadow-color: rgb(6 8 43 / 48%);
 
     position: relative;
     isolation: isolate;
     overflow: clip;
     background: linear-gradient(90deg, var(--section-start), var(--section-end));
-    color: #fff;
+    color: var(--color-white);
   }
 
   /* Sin .container: el círculo debe alcanzar el borde de la sección. */
@@ -135,8 +137,8 @@ import { registrationUrl, contact } from "@data/navigation";
   }
 
   .partnership__title strong {
-    color: #a0d5fd;
-    font-weight: 800;
+    color: var(--color-sky);
+    font-weight: var(--font-weight-strong);
   }
 
   .partnership__title span {
@@ -155,41 +157,8 @@ import { registrationUrl, contact } from "@data/navigation";
   }
 
   .partnership__action {
-    box-sizing: border-box;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 11.5rem;
-    min-height: 3.5rem;
-    max-width: 100%;
     margin-top: clamp(2rem, 3.2vw, 3.75rem);
-    padding: 0.625rem 2.25rem;
-    border: 0;
-    border-radius: 999px;
-    background: #fff;
-    color: #7379ff;
-    font-family: var(--font-primary);
-    font-size: clamp(1.125rem, 1.5vw, 1.625rem);
-    font-weight: 800;
-    line-height: 1.3;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: background-color 180ms ease, color 180ms ease;
   }
-
-  .partnership__action:focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: 5px;
-  }
-
-  @media (hover: hover) {
-    .partnership__action:hover {
-      background: #eef1ff;
-      color: #5145cf;
-    }
-  }
-
   /* Desktop-first: lg. */
   @media (width < 64rem) {
     .partnership__layout {
@@ -201,7 +170,7 @@ import { registrationUrl, contact } from "@data/navigation";
       display: grid;
       place-items: center;
       justify-self: center;
-      width: min(calc(100% - 3rem), 32rem);
+      width: clamp(16rem, 40vw, 24rem);
       aspect-ratio: 1;
       margin-top: 2.5rem;
       padding: 0;
@@ -231,15 +200,16 @@ import { registrationUrl, contact } from "@data/navigation";
     }
 
     .partnership__description {
-      max-width: 40rem;
+      max-width: 55ch;
       font-size: 1rem;
+      line-height: 1.6;
     }
   }
 
   /* Desktop-first: sm. */
   @media (width < 40rem) {
     .partnership__visual {
-      width: min(calc(100% - 2.5rem), 24rem);
+      width: min(calc(100% - 2.5rem), 18rem);
       margin-top: 2rem;
     }
 
@@ -248,26 +218,17 @@ import { registrationUrl, contact } from "@data/navigation";
     }
 
     .partnership__title {
-      font-size: clamp(1.75rem, 6vw, 2.25rem);
+      font-size: clamp(1.625rem, 5vw, 2rem);
     }
 
     .partnership__description {
       margin-top: 1.25rem;
-      font-size: 0.9375rem;
+      font-size: 1rem;
       line-height: 1.6;
     }
 
     .partnership__action {
-      min-width: 10rem;
-      min-height: 3rem;
       margin-top: 1.75rem;
-      font-size: 1.125rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .partnership__action {
-      transition: none;
     }
   }
 </style>

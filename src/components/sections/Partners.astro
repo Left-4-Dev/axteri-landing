@@ -1,20 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import SectionHeading from "@components/ui/SectionHeading.astro";
-import catPhoto from "@assets/images/partner-cat.webp";
-import coca from "@assets/illustrations/logo-coca-cola.svg";
-import samsung from "@assets/illustrations/logo-samsung.svg";
-import cat from "@assets/illustrations/logo-cat.svg";
-import makita from "@assets/illustrations/logo-makita.svg";
-import arrowPrevious from "@public/icons/partner-arrow-left.svg";
-import arrowNext from "@public/icons/partner-arrow-right.svg";
-
-const partners = [
-  { name: "Coca-Cola", logo: coca },
-  { name: "Samsung", logo: samsung },
-  { name: "CAT", logo: cat },
-  { name: "Makita", logo: makita },
-];
+import catPhoto from "@assets/photos/partners/partner-cat.webp";
+import arrowPrevious from "@assets/icons/partners/partner-arrow-left.svg";
+import arrowNext from "@assets/icons/partners/partner-arrow-right.svg";
+import { partners } from "@data/partners";
 ---
 
 <section class="partners section" id="aliados" aria-labelledby="partners-title">
@@ -106,7 +96,7 @@ const partners = [
   </div>
 </section>
 <script>
-  import "../../scripts/partners";
+  import "@scripts/partners";
 </script>
 <style>
   .partners {
@@ -119,13 +109,13 @@ const partners = [
     --photo-tint: #786fee;
     --photo-tint-opacity: 0.46;
     --brand-start: #a298ff;
-    --brand-end: #a0d5fd;
+    --brand-end: var(--color-sky);
     --brand-active: #7373ff;
-    --partners-radius: 1.25rem;
+    --partners-radius: var(--radius-card-lg);
 
     position: relative;
     isolation: isolate;
-    background: var(--color-background, #fff);
+    background: var(--color-background, var(--color-white));
   }
 
   .partners::before {
@@ -241,7 +231,7 @@ const partners = [
     border-radius: var(--partners-radius);
     background: linear-gradient(90deg, var(--brand-start), var(--brand-end));
     cursor: pointer;
-    transition: transform 180ms ease;
+    transition: transform var(--transition-fast);
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -274,7 +264,7 @@ const partners = [
     border-radius: 0.5rem;
     background: transparent;
     cursor: pointer;
-    transition: transform 180ms ease;
+    transition: transform var(--transition-fast);
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -311,12 +301,16 @@ const partners = [
 
   /* Desktop-first: lg. */
   @media (width < 64rem) {
+    .partners :global(.section-heading__description) {
+      font-size: 1rem;
+    }
+
     .partners__visual {
       aspect-ratio: 5 / 2;
     }
 
     .partners__controls {
-      gap: 0.5rem;
+      gap: var(--space-1);
     }
 
     .partners__list {
@@ -340,19 +334,33 @@ const partners = [
     }
 
     .partners__controls {
-      gap: 0.25rem;
+      grid-template-columns: 1fr 2.75rem 2.75rem 1fr;
+      gap: 0.75rem;
       margin-top: 1.25rem;
     }
 
     .partners__list {
+      grid-column: 1 / -1;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.75rem;
+    }
+
+    .partners__arrow {
+      grid-row: 2;
+    }
+
+    .partners__arrow[data-partner-prev] {
+      grid-column: 2;
+    }
+
+    .partners__arrow[data-partner-next] {
+      grid-column: 3;
     }
 
     .partners__brand {
       aspect-ratio: 3 / 2;
       padding: 0.625rem;
-      border-radius: 0.75rem;
+      border-radius: var(--radius-control);
     }
   }
 

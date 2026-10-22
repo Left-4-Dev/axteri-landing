@@ -29,11 +29,11 @@ const { prefix, accent, description, light = false, id } = Astro.props;
     text-wrap: balance;
   }
   .section-heading__title strong {
-    font-weight: 800;
+    font-weight: var(--font-weight-strong);
     color: var(--color-primary);
   }
   .section-heading__description {
-    font-family: var(--font-body);
+    font-family: var(--text-body);
     margin-top: 1.25rem;
     color: var(--color-text);
     text-wrap: pretty;
@@ -42,9 +42,25 @@ const { prefix, accent, description, light = false, id } = Astro.props;
   }
   .section-heading--light .section-heading__title,
   .section-heading--light .section-heading__description {
-    color: #fff;
+    color: var(--color-white);
   }
   .section-heading--light .section-heading__title strong {
     color: #cceaff;
+  }
+  @media (width < 64rem) {
+    .section-heading__description {
+      max-width: 60ch;
+      margin-inline: auto;
+      line-height: 1.65;
+    }
+  }
+  @media (width < 40rem) {
+    .section-heading__title {
+      font-size: clamp(1.625rem, 5vw, 1.85rem);
+    }
+    .section-heading__description {
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
   }
 </style>

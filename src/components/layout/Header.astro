@@ -1,6 +1,6 @@
 ---
 import { navigationLinks } from "@data/navigation";
-import logoUrl from "@public/images/brand/axteri-logo.svg?url";
+import logoUrl from "@assets/logos/axteri-logo.svg?url";
 ---
 
 <header class="header" id="inicio">
@@ -44,14 +44,14 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
       <span class="header__theme-thumb" aria-hidden="true">
         <img
           class="header__theme-icon header__theme-icon--moon"
-          src="/icons/moon.svg"
+          src="/icons/ui/moon.svg"
           alt=""
           width="28"
           height="28"
         />
         <img
           class="header__theme-icon header__theme-icon--sun"
-          src="/icons/sun.svg"
+          src="/icons/ui/sun.svg"
           alt=""
           width="28"
           height="28"
@@ -69,27 +69,15 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
     top: 0;
     inset: 0 0 auto;
     z-index: 10;
-    /* background: linear-gradient(115deg, #b3e1fc, #ccc5ff); */
-    color: #323643;
+    color: var(--color-ink);
   }
   .header__inner {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: var(--space-4);
     min-height: 6.5rem;
     padding-block: 1rem;
-  }
-  .brand {
-    display: inline-flex;
-    align-items: center;
-    flex-shrink: 0;
-    text-decoration: none;
-  }
-  .brand__logo {
-    display: block;
-    width: 180px;
-    height: auto;
   }
   .header__nav {
     display: flex;
@@ -100,7 +88,7 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
   .header__link {
     position: relative;
     font-size: 0.925rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     text-decoration: none;
     text-transform: uppercase;
   }
@@ -138,8 +126,8 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
     height: var(--toggle-height);
     padding: 0;
     border: 0;
-    border-radius: 999px;
-    background-color: #fff;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-white);
     cursor: pointer;
   }
   .header__theme::before {
@@ -156,7 +144,7 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
     width: var(--toggle-thumb-size);
     height: var(--toggle-thumb-size);
     border-radius: 50%;
-    background-color: #323643;
+    background-color: var(--color-ink);
     transform: translateX(0);
     transition: transform 250ms ease;
   }
@@ -166,7 +154,7 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
     width: 65%;
     height: 65%;
     object-fit: contain;
-    transition: opacity 180ms ease;
+    transition: opacity var(--transition-fast);
   }
   .header__theme-icon--moon {
     opacity: 1;
@@ -200,8 +188,8 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
     outline-offset: 4px;
   }
   :global([data-theme="dark"]) .header {
-    background: linear-gradient(115deg, #253b66, #36325d);
-    color: #fff;
+    background: var(--gradient-header-dark);
+    color: var(--color-white);
   }
   :global([data-theme="dark"]) .header__link:hover,
   :global([data-theme="dark"]) .header__link:focus-visible,
@@ -252,7 +240,7 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
       margin: 0;
       padding: 0;
       border: 1px solid rgb(50 54 67 / 25%);
-      border-radius: 0.75rem;
+      border-radius: var(--radius-control);
       background: rgb(255 255 255 / 45%);
       color: inherit;
       -webkit-tap-highlight-color: transparent;
@@ -263,9 +251,9 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
       display: block;
       width: 1.125rem;
       height: 2px;
-      border-radius: 999px;
+      border-radius: var(--radius-pill);
       background: currentColor;
-      transition: background-color 180ms ease;
+      transition: background-color var(--transition-fast);
     }
 
     .header__menu-icon::before,
@@ -277,7 +265,7 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
       height: 2px;
       border-radius: inherit;
       background: currentColor;
-      transition: transform 180ms ease;
+      transition: transform var(--transition-fast);
     }
 
     .header__menu-icon::before {
@@ -387,7 +375,7 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
 
     :global([data-theme="dark"]) .header__nav {
       border-color: rgb(201 198 255 / 20%);
-      background: linear-gradient(115deg, #253b66, #36325d);
+      background: var(--gradient-header-dark);
       box-shadow: 0 12px 30px rgb(0 0 0 / 25%);
     }
 
@@ -402,7 +390,7 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
   /* sm: móviles pequeños. */
   @media (width < 40rem) {
     .header__inner {
-      gap: 0.5rem;
+      gap: var(--space-1);
       min-height: 4.75rem;
       padding-block: 0.625rem;
     }
@@ -414,6 +402,11 @@ import logoUrl from "@public/images/brand/axteri-logo.svg?url";
     .header__theme {
       --toggle-width: 3rem;
       --toggle-height: 1.625rem;
+    }
+
+    .header__theme::before {
+      /* 44px de zona táctil sin agrandar el dibujo del selector. */
+      inset: -0.5625rem 0;
     }
 
     .header__nav {

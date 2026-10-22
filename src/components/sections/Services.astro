@@ -1,12 +1,12 @@
 ---
 import { Image } from "astro:assets";
 import SectionHeading from "@components/ui/SectionHeading.astro";
-import central from "/icons/marketplace.svg?url";
-import digital from "/icons/digital-platform.svg?url";
-import certified from "/icons/certified-products.svg?url";
-import delivery from "/icons/delivery.svg?url";
-import verified from "/icons/verified-suppliers.svg?url";
-import support from "/icons/support.svg?url";
+const central = "/icons/services/marketplace.svg";
+const digital = "/icons/services/digital-platform.svg";
+const certified = "/icons/services/certified-products.svg";
+const delivery = "/icons/services/delivery.svg";
+const verified = "/icons/services/verified-suppliers.svg";
+const support = "/icons/services/support.svg";
 const services = [
   { key: "digital", image: digital, title: "Plataforma digital" },
   {
@@ -73,6 +73,7 @@ const services = [
 </section>
 <style>
   .services {
+    --service-shadow: 5px 7px 10px rgb(48 52 65 / 22%);
     padding-top: 1rem;
   }
   .services__diagram {
@@ -82,7 +83,7 @@ const services = [
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
-    gap: 2rem;
+    gap: var(--space-4);
   }
   .services__center {
     grid-column: 2;
@@ -104,7 +105,7 @@ const services = [
     --icon-wrapper-size: 7.5rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: var(--space-2);
     position: relative;
   }
   .services__icon-wrapper {
@@ -123,7 +124,7 @@ const services = [
     border-radius: 50%;
     background: var(--icon-background);
     box-shadow:
-      5px 7px 10px rgb(48 52 65 / 22%)
+      var(--service-shadow)
   }
   .services__icon-wrapper::before {
     content: "";
@@ -154,7 +155,7 @@ const services = [
     bottom: calc(0px - var(--connector-tail));
     width: var(--connector-thickness);
     height: auto;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     transform: translateX(-50%);
     background: linear-gradient(
       to bottom,
@@ -175,7 +176,7 @@ const services = [
     height: var(--connector-dot-size);
     border: 0.625rem solid var(--connector-color);
     border-radius: 50%;
-    background: #fff;
+    background: var(--color-white);
     transform:
       translate(-50%, -50%)
       rotate(var(--connector-angle))
@@ -199,34 +200,34 @@ const services = [
     font-size: 1rem;
     line-height: 1.5;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
   }
   .services__item--digital {
-    --icon-background: linear-gradient(126deg, #a0d5fd, #9d98fc);
+    --icon-background: linear-gradient(126deg, var(--color-sky), var(--color-brand-end));
     --connector-angle: 35deg;
     grid-column: 1;
     grid-row: 1;
   }
   .services__item--certified {
-    --icon-background: linear-gradient(216deg, #a0d5fd, #9d98fc);
+    --icon-background: linear-gradient(216deg, var(--color-sky), var(--color-brand-end));
     --connector-angle: 145deg;
     grid-column: 3;
     grid-row: 1;
   }
   .services__item--delivery {
-    --icon-background: linear-gradient(54deg, #a0d5fd, #9d98fc);
+    --icon-background: linear-gradient(54deg, var(--color-sky), var(--color-brand-end));
     --connector-angle: -35deg;
     grid-column: 1;
     grid-row: 2;
   }
   .services__item--verified {
-    --icon-background: linear-gradient(306deg, #a0d5fd, #9d98fc);
+    --icon-background: linear-gradient(306deg, var(--color-sky), var(--color-brand-end));
     --connector-angle: -145deg;
     grid-column: 3;
     grid-row: 2;
   }
   .services__item--support {
-    --icon-background: linear-gradient(0deg, #a0d5fd, #9d98fc);
+    --icon-background: linear-gradient(0deg, var(--color-sky), var(--color-brand-end));
     --connector-angle: -90deg;
     grid-column: 2;
     grid-row: 3;
@@ -234,7 +235,7 @@ const services = [
     transform: translateX(calc(50% - var(--icon-wrapper-size) / 2));
   }
   .services__center {
-    --center-background: #323643;
+    --center-background: var(--color-ink);
     --center-border: #a49bfc;
     align-self: start;
     margin-top: 1.5rem;
@@ -250,7 +251,7 @@ const services = [
     background-color: var(--center-background);
 
     box-shadow:
-      5px 7px 10px rgb(48 52 65 / 22%),
+      var(--service-shadow),
       inset 4px 5px 9px rgb(0 0 0 / 28%);
   }
 
@@ -265,21 +266,25 @@ const services = [
     flex-direction: row-reverse;
     text-align: right;
   }
-  @media (max-width: 60rem) {
+  @media (width < 64rem) {
     .services__diagram {
       display: flex;
       flex-direction: column;
+      gap: 2rem;
     }
-    /* .services__center {
-      width: 12rem;
+    .services__center {
+      align-self: center;
+      width: clamp(10rem, 26vw, 16rem);
       margin: 0;
-    } */
+    }
     .services__list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.5rem;
+      gap: var(--space-3);
       width: 100%;
     }
     .services__item {
+      --icon-wrapper-size: 5rem;
+      min-width: 0;
       grid-column: auto;
       grid-row: auto;
       flex-direction: row;
@@ -291,21 +296,24 @@ const services = [
     }
     .services__item--support {
       grid-column: 1/-1;
+      max-width: 26rem;
+      justify-self: center;
       justify-content: center;
       transform: none;
     }
   }
-  @media (max-width: 36rem) {
+  @media (width < 40rem) {
     .services__list {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 30rem;
+    }
+    .services__item {
+      --icon-wrapper-size: 4.5rem;
     }
     .services__item--support {
       grid-column: auto;
+      justify-self: stretch;
       justify-content: start;
-    }
-    .services__item img {
-      width: 5.5rem;
-      height: 5.5rem;
     }
   }
 </style>

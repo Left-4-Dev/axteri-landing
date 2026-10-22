@@ -54,7 +54,7 @@ import audience from "@assets/illustrations/audience.svg?url";
     border-radius: 0 999px 999px 0;
     background: var(--color-sky);
     padding: 4rem clamp(2rem, 5vw, 5rem);
-    color: #fff;
+    color: var(--color-white);
   }
   .audience__panel--buyers {
     border-radius: 999px 0 0 999px;
@@ -64,7 +64,7 @@ import audience from "@assets/illustrations/audience.svg?url";
   .audience__panel h3 {
     font-size: 1.4rem;
     text-transform: uppercase;
-    font-weight: 800;
+    font-weight: var(--font-weight-strong);
     line-height: 1.35;
     margin-bottom: 1rem;
   }
@@ -75,9 +75,10 @@ import audience from "@assets/illustrations/audience.svg?url";
     width: 100%;
     border-radius: 1rem;
   }
-  @media (max-width: 64rem) {
+  @media (width < 80rem) {
     .audience__layout {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
       padding-inline: var(--container-padding);
     }
     .audience__image {
@@ -93,9 +94,25 @@ import audience from "@assets/illustrations/audience.svg?url";
       text-align: left;
     }
   }
-  @media (max-width: 38rem) {
+  @media (width < 64rem) {
+    .audience__panel,
+    .audience__panel--buyers {
+      padding: 1.5rem;
+    }
+    .audience__panel h3 {
+      font-size: 1.25rem;
+    }
+    .audience__panel p {
+      line-height: 1.6;
+    }
+  }
+  @media (width < 48rem) {
     .audience__layout {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 40rem;
+    }
+    .audience__image {
+      max-width: 14rem;
     }
   }
 </style>

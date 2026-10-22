@@ -3,12 +3,12 @@ import SectionHeading from "@components/ui/SectionHeading.astro";
 const pillars = [
   {
     title: "Misión",
-    icon: "/icons/target.svg",
+    icon: "/icons/about/target.svg",
     text: "Conectar a las industrias con los mejores proveedores a través de una plataforma rápida, segura e intuitiva, que centraliza productos, precios y comunicación, garantizando eficiencia en cada compra y fortaleciendo la cadena de compra industrial.",
   },
   {
     title: "Visión",
-    icon: "/icons/eye.svg",
+    icon: "/icons/about/eye.svg",
     text: "Liderar el mercado industrial como el ecosistema digital que implementa procesos innovadores, simplifica el abastecimiento y fortalece la conexión profesional, ofreciendo una plataforma de búsqueda intuitiva con seguridad total para el comercio B2B.",
   },
 ];
@@ -60,22 +60,22 @@ const pillars = [
     position: relative;
     padding: 3rem 2.5rem 2.5rem;
     border-radius: var(--radius-card);
-    background: linear-gradient(78deg, #a0d5fd, #9eb6fc);
+    background: linear-gradient(78deg, var(--color-sky), #9eb6fc);
     box-shadow: var(--shadow-card);
-    color: #fff;
+    color: var(--color-white);
   }
   .about__card--vision {
-    background: linear-gradient(78deg, #9eb6fc, #9d98fc);
+    background: linear-gradient(78deg, #9eb6fc, var(--color-brand-end));
   }
   .about__title {
     font-size: 1.65rem;
     text-transform: uppercase;
-    font-weight: 800;
+    font-weight: var(--font-weight-strong);
     margin-bottom: 1rem;
     padding-right: 3rem;
   }
   .about__icon-wrapper {
-  /* Sustituye este RGB por el color exacto de Illustrator. */
+  /* Sombra local conservada en su propia capa con mezcla multiply. */
   --icon-shadow-color: rgb(175, 157, 209, 75%);
   position: absolute;
   right: 1.25rem;
@@ -86,7 +86,7 @@ const pillars = [
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-white);
   overflow: visible;
 }
 .about__icon-wrapper::before {
@@ -108,16 +108,40 @@ const pillars = [
   }
   .about__card p {
     font-family: var(--font-body);
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     font-size: 0.875rem;
     text-transform: uppercase;
   }
-  @media (max-width: 42rem) {
+  @media (width < 64rem) {
     .about__grid {
-      grid-template-columns: 1fr;
+      gap: var(--space-3);
     }
     .about__card {
-      padding: 2rem 1.5rem;
+      padding: 1.5rem;
+    }
+    .about__title {
+      display: flex;
+      align-items: center;
+      min-height: 3.5rem;
+      padding-right: 4.5rem;
+      font-size: 1.5rem;
+      line-height: 1.25;
+    }
+    .about__icon-wrapper {
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+    .about__card p {
+      font-size: 0.9375rem;
+      line-height: 1.65;
+    }
+  }
+  @media (width < 48rem) {
+    .about__grid {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 36rem;
     }
   }
 </style>

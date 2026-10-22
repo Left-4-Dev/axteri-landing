@@ -1,5 +1,6 @@
 ---
-import { contact, registrationUrl } from "../../data/navigation";
+import Action from "@components/ui/Action.astro";
+import { contact, registrationUrl } from "@data/navigation";
 const stats = [
   { value: "12", label: "Marcas aliadas" },
   { value: "+500", label: "Usuarios" },
@@ -8,7 +9,6 @@ const stats = [
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <!-- <div class="hero__glow" aria-hidden="true"></div> -->
   <div class="hero__inner container">
     <h1 class="hero__title" id="hero-title">
       Brilla, conecta y trasciende
@@ -18,12 +18,12 @@ const stats = [
       <br class="hero__break" /> y segura de comprar por internet.
     </p>
     <div class="hero__actions">
-      <a class="button" href="#categorias">
+      <Action variant="primary" class="hero__action" href="#categorias">
         EXPLORAR
-      </a>
-      <a class="button button--light" href={registrationUrl ?? contact.href}>
+      </Action>
+      <Action variant="light" class="hero__action" href={registrationUrl ?? contact.href}>
         UNIRSE
-      </a>
+      </Action>
     </div>
     <dl class="hero__stats">
       {stats.map((stat, index) => (
@@ -40,11 +40,11 @@ const stats = [
 </script>
 <style>
   .hero {
-    --hero-gradient: linear-gradient(90deg, #a0d5fd, #9d98fc);
+    --hero-gradient: linear-gradient(90deg, var(--color-sky), var(--color-brand-end));
     position: relative;
     padding: clamp(9.5rem, 12vw, 12.5rem) 0 clamp(3rem, 6vw, 6rem);
-    color: #323643;
-    background-color: #fff;
+    color: var(--color-ink);
+    background-color: var(--color-white);
     background-image:
       var(--hero-gradient),
       url("/images/backgrounds/hero-mesh-background.png");
@@ -55,32 +55,18 @@ const stats = [
     isolation: isolate;
     overflow: hidden;
   }
-  /* .hero::after {
-    content: "";
-    position: absolute;
-    inset: 65% 0 0;
-    background: linear-gradient(transparent, var(--color-background));
-    z-index: -1;
-  } */
-  /* .hero__glow {
-    position: absolute;
-    inset: 15% -15% -10%;
-    background: radial-gradient(ellipse, #fff9, transparent 68%);
-    z-index: -1;
-    pointer-events: none;
-  } */
   .hero__inner {
     text-align: center;
   }
   .hero__title {
     font-size: clamp(2.4rem, 4.5vw, 4.5rem);
-    font-weight: 800;
+    font-weight: var(--font-weight-strong);
     line-height: 1.15;
     text-transform: uppercase;
     letter-spacing: -0.025em;
     max-width: 75rem;
     margin: auto;
-    color: #fff;
+    color: var(--color-white);
     text-shadow: none;
     text-wrap: balance;
   }
@@ -104,19 +90,8 @@ const stats = [
   .hero__stats {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2rem;
+    gap: var(--space-4);
     margin: 4rem 0 0;
-  }
-  .hero__stat {
-    /* display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    justify-content: center;
-    padding: 1.35rem 1rem;
-    background: #ffffff80;
-    border: 1px solid #fff3;
-    border-radius: var(--radius-card);
-    box-shadow: 0 4px 24px #c6cafa44; */
   }
   .hero__stat {
     position: relative;
@@ -126,7 +101,6 @@ const stats = [
     justify-content: center;
     padding: 1.35rem 1rem;
     border-radius: var(--radius-card);
-    /* Conserva aquí tu border-radius actual. */
     background: transparent;
     box-shadow: none;
     overflow: visible;
@@ -140,7 +114,7 @@ const stats = [
     z-index: 0;
 
     border-radius: inherit;
-    background-color: #f6f6f6;
+    background-color: var(--color-relief-surface);
 
     box-shadow:
       -5px -5px 5px 0 rgb(255 255 255 / 75%),
@@ -165,23 +139,20 @@ const stats = [
   .hero__stat dd {
     font-family: var(--font-body);
     font-size: clamp(2.25rem, 4.5vw, 4rem);
-    font-weight: 800;
+    font-weight: var(--font-weight-strong);
     line-height: 1.2;
     margin: 0;
     color: #66718a;
   }
   .hero__stat--accent dd, .hero__stat--accent dt {
-    color: #7379ff;
+    color: var(--color-primary);
   }
   :global([data-theme="dark"]) .hero__title {
-    color: #fff;
+    color: var(--color-white);
   }
   :global([data-theme="dark"]) .hero {
-    background: linear-gradient(115deg, #253b66, #36325d);
-    color: #fff;
-  }
-  :global([data-theme="dark"]) .hero__glow {
-    opacity: 0.1;
+    background: var(--gradient-header-dark);
+    color: var(--color-white);
   }
   :global([data-theme="dark"]) .hero__stat {
     background: #202746cc;
@@ -190,27 +161,48 @@ const stats = [
   :global([data-theme="dark"]) .hero__stat dd {
     color: #d9e6ff;
   }
-  @media (max-width: 40rem) {
+  @media (width < 64rem) {
+    .hero__stat {
+      /* Alinea las cifras aunque una etiqueta ocupe dos líneas. */
+      justify-content: flex-end;
+    }
+  }
+  @media (width < 40rem) {
+    .hero__title {
+      font-size: clamp(2rem, 6vw, 2.4rem);
+      line-height: 1.15;
+    }
+    .hero__description {
+      margin-top: 1.25rem;
+      line-height: 1.6;
+    }
     .hero__stats {
+      grid-template-columns: minmax(0, 1fr);
       gap: 0.75rem;
-      margin-top: 2.75rem;
+      max-width: 26rem;
+      margin: 2rem auto 0;
     }
     .hero__stat {
-      padding: 1rem 0.5rem;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.875rem 1.25rem;
     }
     .hero__stat dt {
-      font-size: 0.75rem;
+      font-size: 0.875rem;
       letter-spacing: 0;
+      text-align: right;
     }
     .hero__stat dd {
       font-size: 2rem;
     }
     .hero__actions {
       gap: 0.75rem;
+      margin-top: 1.75rem;
     }
     .hero__actions .button {
       min-width: 0;
-      padding: 0.75rem 1.75rem;
+      padding: 0.75rem 1.5rem;
     }
     .hero__break {
       display: none;

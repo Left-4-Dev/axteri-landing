@@ -91,8 +91,8 @@ const { value, title, description, prefix, index } = Astro.props;
     align-items: center;
 
     border-radius: 50%;
-    background: #fff;
-    color: #323643;
+    background: var(--color-white);
+    color: var(--color-ink);
   }
   .metric__label span {
     text-transform: uppercase;
@@ -104,7 +104,7 @@ const { value, title, description, prefix, index } = Astro.props;
   }
   .metric__title {
     font-size: 1rem;
-    font-weight: 800;
+    font-weight: var(--font-weight-strong);
     line-height: 1.5;
     text-transform: uppercase;
   }
@@ -114,5 +114,55 @@ const { value, title, description, prefix, index } = Astro.props;
     margin-top: 0.5rem;
     max-width: 23rem;
     margin-inline: auto;
+  }
+
+  @media (width < 64rem) {
+    .metric__chart {
+      width: min(100%, 12rem);
+      margin-bottom: 1rem;
+    }
+
+    .metric__label strong {
+      font-size: 2.25rem;
+    }
+  }
+
+  @media (width < 40rem) {
+    .metric {
+      display: grid;
+      grid-template-columns: 7rem minmax(0, 1fr);
+      column-gap: 1rem;
+      text-align: left;
+    }
+
+    .metric__chart {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      align-self: center;
+      width: 100%;
+      margin: 0;
+    }
+
+    .metric__label span {
+      font-size: 0.75rem;
+    }
+
+    .metric__label strong {
+      font-size: 1.75rem;
+    }
+
+    .metric__title {
+      grid-column: 2;
+      align-self: end;
+      line-height: 1.35;
+    }
+
+    .metric__description {
+      grid-column: 2;
+      align-self: start;
+      margin: 0.5rem 0 0;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+    }
   }
 </style>
