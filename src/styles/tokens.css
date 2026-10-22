@@ -11,8 +11,22 @@
  * Las adaptaciones se aplican por debajo de cada breakpoint,
  * ordenadas de mayor a menor.
  * Cada componente usa solo los breakpoints que necesita.
+ * Excepciones heredadas y fronteras inclusivas: docs/architecture.md.
  */
 :root {
+  /* Fixed palette: these values intentionally do not change in dark mode. */
+  --color-white: #fff;
+  --color-ink: #323643;
+  --color-accent-fixed: #5145cf;
+  --color-violet: #7770ff;
+  --color-brand-end: #9d98fc;
+  --color-relief-surface: #f6f6f6;
+  --gradient-header-dark: linear-gradient(115deg, #253b66, #36325d);
+  --font-weight-semibold: 600;
+  --font-weight-strong: 800;
+  --radius-card-lg: 1.25rem;
+  --radius-control: 0.75rem;
+  /* Theme-aware roles are overridden below; keep fixed colors separate. */
   --color-primary: #7379ff;
   --color-accent: #5145cf;
   --color-sky: #a0d5fd;

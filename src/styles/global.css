@@ -1,6 +1,7 @@
 @import "@styles/fonts.css";
 @import "@styles/reset.css";
 @import "@styles/tokens.css";
+@import "@styles/components/actions.css";
 body {
   font-family: var(--font-primary);
   font-size: var(--text-body);
@@ -22,45 +23,6 @@ body {
 }
 .section {
   padding-block: var(--section-space);
-}
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 3rem;
-  padding: 0.7rem 2.2rem;
-  border: 2px solid transparent;
-  border-radius: var(--radius-pill);
-  background: #7379FF;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 1rem;
-  line-height: 1.4;
-  transition:
-    transform var(--transition-fast),
-    background var(--transition-fast);
-  text-align: center;
-}
-.button:hover {
-  background: #5145cf;
-  transform: translateY(-2px);
-}
-.button--light {
-  background: #fff;
-  color: #7379FF;
-}
-.button--light:hover {
-  background: #eff0ff;
-}
-.button--outline {
-  background: transparent;
-  border-color: var(--color-border);
-  color: var(--color-text);
-}
-.button--outline:hover {
-  background: var(--color-surface);
 }
 .skip-link {
   position: fixed;
