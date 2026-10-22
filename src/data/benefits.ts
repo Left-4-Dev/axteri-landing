@@ -34,9 +34,3 @@ export const benefits = [
     description: "Todos los proveedores están validados.",
   },
 ];
-export const categories = [
-  { name: "AGRO", status: "Consultar disponibilidad" },
-  { name: "ARQUI", status: "Próximamente" },
-  { name: "CIVIL", status: "Próximamente" },
-  { name: "MEDIC", status: "Próximamente" },
-];

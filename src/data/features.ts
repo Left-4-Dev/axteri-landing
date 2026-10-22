@@ -1,13 +1,13 @@
 import type { ImageMetadata } from "astro";
-import sellers01 from "@assets/illustrations/sellers-01.webp";
-import sellers02 from "@assets/illustrations/sellers-02.webp";
-import sellers03 from "@assets/illustrations/sellers-03.webp";
-import sellers04 from "@assets/illustrations/sellers-04.webp";
-import buyers01 from "@assets/illustrations/buyers-01.webp";
-import buyers02 from "@assets/illustrations/buyers-02.webp";
-import buyers03 from "@assets/illustrations/buyers-03.webp";
-import buyers04 from "@assets/illustrations/buyers-04.webp";
-import buyers05 from "@assets/illustrations/buyers-05.webp";
+import sellers01 from "@assets/illustrations/features/sellers-01.webp";
+import sellers02 from "@assets/illustrations/features/sellers-02.webp";
+import sellers03 from "@assets/illustrations/features/sellers-03.webp";
+import sellers04 from "@assets/illustrations/features/sellers-04.webp";
+import buyers01 from "@assets/illustrations/features/buyers-01.webp";
+import buyers02 from "@assets/illustrations/features/buyers-02.webp";
+import buyers03 from "@assets/illustrations/features/buyers-03.webp";
+import buyers04 from "@assets/illustrations/features/buyers-04.webp";
+import buyers05 from "@assets/illustrations/features/buyers-05.webp";
 
 export interface Feature {
   id: string;
@@ -22,7 +22,7 @@ export const sellerFeatures: Feature[] = [
     id: "seller-account",
     title: "Cuenta del proveedor",
     image: sellers01,
-    icon: "/icons/supplier-account.svg",
+    icon: "/icons/features/supplier-account.svg",
     iconPath: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2",
     items: [
       {
@@ -45,7 +45,7 @@ export const sellerFeatures: Feature[] = [
     id: "seller-products",
     title: "Gestión de productos",
     image: sellers02,
-    icon: "/icons/product-management.svg",
+    icon: "/icons/features/product-management.svg",
     iconPath: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2",
     items: [
       {
@@ -67,7 +67,7 @@ export const sellerFeatures: Feature[] = [
     id: "seller-orders",
     title: "Pedidos y ventas",
     image: sellers03,
-    icon: "/icons/orders-sales.svg",
+    icon: "/icons/features/orders-sales.svg",
     iconPath: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2",
     items: [
       {
@@ -89,7 +89,7 @@ export const sellerFeatures: Feature[] = [
     id: "seller-settings",
     title: "Configuración",
     image: sellers04,
-    icon: "/icons/settings.svg",
+    icon: "/icons/features/settings.svg",
     iconPath: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2",
     items: [
       {
@@ -116,7 +116,7 @@ export const buyerFeatures: Feature[] = [
     id: "buyer-catalog",
     title: "Catálogo de productos",
     image: buyers01,
-    icon: "/icons/product-catalog.svg",
+    icon: "/icons/features/product-catalog.svg",
     iconPath: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2",
     items: [
       {
@@ -137,7 +137,7 @@ export const buyerFeatures: Feature[] = [
     id: "buyer-search",
     title: "Búsqueda de productos",
     image: buyers02,
-    icon: "/icons/product-search.svg",
+    icon: "/icons/features/product-search.svg",
     iconPath: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2",
     items: [
       {
@@ -158,7 +158,7 @@ export const buyerFeatures: Feature[] = [
     id: "buyer-support",
     title: "Servicio al cliente",
     image: buyers03,
-    icon: "/icons/customer-support.svg",
+    icon: "/icons/features/customer-support.svg",
     iconPath: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2",
     items: [
       {
@@ -182,7 +182,7 @@ export const buyerFeatures: Feature[] = [
     id: "buyer-validation",
     title: "Validación del producto",
     image: buyers04,
-    icon: "/icons/product-validation.svg",
+    icon: "/icons/features/product-validation.svg",
     iconPath: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2",
     items: [
       {
@@ -206,7 +206,7 @@ export const buyerFeatures: Feature[] = [
     id: "buyer-account",
     title: "Cuenta del cliente",
     image: buyers05,
-    icon: "/icons/customer-account.svg",
+    icon: "/icons/features/customer-account.svg",
     iconPath: "M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21v-2a8 8 0 0 1 16 0v2",
     items: [
       {
