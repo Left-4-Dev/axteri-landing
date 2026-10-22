@@ -2,7 +2,6 @@
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
     "paths": {
-      "@public/*": ["./public/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@data/*": ["./src/data/*"],
