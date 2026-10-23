@@ -1,0 +1,45 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Variant = "primary" | "light" | "outline" | "category" | "partnership";
+type SharedProps = {
+  variant?: Variant;
+  class?: HTMLAttributes<"a">["class"];
+  "class:list"?: HTMLAttributes<"a">["class:list"];
+  [attribute: `data-${string}`]: unknown;
+};
+type Props = SharedProps & (
+  | (Omit<HTMLAttributes<"a">, "class" | "type"> & {
+      href: string;
+      type?: never;
+      disabled?: never;
+    })
+  | (Omit<HTMLAttributes<"button">, "class"> & { href?: never })
+);
+
+const {
+  href,
+  variant = "primary",
+  class: className,
+  "class:list": classList,
+  type = "button",
+  ...attributes
+} = Astro.props;
+
+const variants: Record<Variant, string[]> = {
+  primary: ["button", "button--primary"],
+  light: ["button", "button--light"],
+  outline: ["button", "button--outline"],
+  category: ["action", "action--category"],
+  partnership: ["action", "action--partnership"],
+};
+const classes = [variants[variant], className, classList];
+// Forward Astro's parent scope attributes as well as aria-*, data-* and native
+// attributes. The single root preserves the parent's layout and CSS selectors.
+---
+
+{href !== undefined ? (
+  <a {...attributes} href={href} class:list={classes}><slot /></a>
+) : (
+  <button {...attributes} type={type} class:list={classes}><slot /></button>
+)}

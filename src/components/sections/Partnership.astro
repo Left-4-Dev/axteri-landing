@@ -1,0 +1,238 @@
+---
+import Action from "@components/ui/Action.astro";
+import { Image } from "astro:assets";
+import partnership from "@assets/illustrations/partnership.webp";
+import { registrationUrl, contact } from "@data/navigation";
+---
+
+<section class="partnership" aria-labelledby="partnership-title">
+  <div class="partnership__layout">
+    <div class="partnership__visual">
+      <Image
+        class="partnership__image"
+        src={partnership}
+        alt="Equipo reunido para planificar su negocio digital"
+        width={620}
+        widths={[320, 480, 620, 812]}
+        sizes="(min-width: 1024px) 30vw, (min-width: 640px) 384px, 75vw"
+        loading="lazy"
+      />
+    </div>
+
+    <div class="partnership__content" data-reveal>
+      <h2 class="partnership__title" id="partnership-title">
+        ¿Cómo <strong>aliarte</strong>
+        <span>con nosotros?</span>
+      </h2>
+      <p class="partnership__description">
+        ¿Eres importador, proveedor o fabricante y quieres que tus productos se
+        vendan de manera digital? Puedes ser parte de nuestra plataforma y
+        llegar a más clientes en todo el Perú.
+      </p>
+      <Action
+        variant="partnership"
+        class="partnership__action"
+        href={registrationUrl ?? contact.href}
+      >
+        Únete
+      </Action>
+    </div>
+  </div>
+</section>
+
+<script>
+  import "@scripts/animations/partnership";
+</script>
+
+<style>
+  .partnership {
+    /* Colores aproximados a la referencia: no se adjuntaron sus valores. */
+    --section-start: #7379f6;
+    --section-end: #9890f1;
+    --circle-start: #b1acff;
+    --circle-end: var(--color-sky);
+    --shadow-color: rgb(6 8 43 / 48%);
+
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    background: linear-gradient(90deg, var(--section-start), var(--section-end));
+    color: var(--color-white);
+  }
+
+  /* Sin .container: el círculo debe alcanzar el borde de la sección. */
+  .partnership__layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: clamp(30rem, 32vw, 40rem);
+  }
+
+  .partnership__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding-block: 1.75rem;
+  }
+
+  .partnership__visual::before,
+  .partnership__visual::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: 15%;
+    width: 120%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .partnership__visual::before {
+    background: linear-gradient(45deg, var(--circle-start), var(--circle-end) 70%);
+  }
+
+  /* La mezcla afecta solo a la sombra; la ilustración conserva sus colores.
+     Illustrator: Multiplicar, 48%, X 8 px, Y 8 px, desenfoque 7 px.
+     El desenfoque CSS es una aproximación visual al de Illustrator. */
+  .partnership__visual::after {
+    box-shadow: 8px 8px 7px var(--shadow-color);
+    mix-blend-mode: multiply;
+  }
+
+  .partnership__image {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: min(66%, 34rem);
+    height: auto;
+    margin-left: 8%;
+    object-fit: contain;
+
+    /* El WebP disponible incluye fondo. Suaviza sus bordes para integrarlo.
+       Si lo reemplazas por una exportación transparente, elimina estas
+       propiedades mask-image y mask-composite. */
+    mask-image:
+      linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent),
+      linear-gradient(180deg, transparent, #000 3%, #000 99%, transparent);
+    mask-composite: intersect;
+  }
+
+  .partnership__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-width: 0;
+    padding: clamp(3rem, 5vw, 6rem) clamp(1.5rem, 8vw, 10rem) clamp(3rem, 5vw, 6rem) 0;
+  }
+
+  .partnership__title {
+    margin: 0;
+    color: inherit;
+    font-family: var(--font-primary);
+    font-size: clamp(2rem, 3.2vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .partnership__title strong {
+    color: var(--color-sky);
+    font-weight: var(--font-weight-strong);
+  }
+
+  .partnership__title span {
+    display: block;
+  }
+
+  .partnership__description {
+    max-width: 47rem;
+    margin: clamp(1.5rem, 2vw, 2.25rem) 0 0;
+    color: inherit;
+    font-family: var(--font-body, var(--font-primary));
+    font-size: clamp(0.9375rem, 1vw, 1.125rem);
+    line-height: 1.5;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+  }
+
+  .partnership__action {
+    margin-top: clamp(2rem, 3.2vw, 3.75rem);
+  }
+  /* Desktop-first: lg. */
+  @media (width < 64rem) {
+    .partnership__layout {
+      grid-template-columns: minmax(0, 1fr);
+      min-height: 0;
+    }
+
+    .partnership__visual {
+      display: grid;
+      place-items: center;
+      justify-self: center;
+      width: clamp(16rem, 40vw, 24rem);
+      aspect-ratio: 1;
+      margin-top: 2.5rem;
+      padding: 0;
+    }
+
+    .partnership__visual::before,
+    .partnership__visual::after {
+      top: 0;
+      right: 0;
+      width: 100%;
+      transform: none;
+    }
+
+    .partnership__image {
+      width: 76%;
+      margin: 0;
+    }
+
+    .partnership__content {
+      align-items: center;
+      padding: 2.5rem clamp(1.5rem, 6vw, 4rem) 3.5rem;
+      text-align: center;
+    }
+
+    .partnership__title {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+    }
+
+    .partnership__description {
+      max-width: 55ch;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+  }
+
+  /* Desktop-first: sm. */
+  @media (width < 40rem) {
+    .partnership__visual {
+      width: min(calc(100% - 2.5rem), 18rem);
+      margin-top: 2rem;
+    }
+
+    .partnership__content {
+      padding: 2rem 1.25rem 3rem;
+    }
+
+    .partnership__title {
+      font-size: clamp(1.625rem, 5vw, 2rem);
+    }
+
+    .partnership__description {
+      margin-top: 1.25rem;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .partnership__action {
+      margin-top: 1.75rem;
+    }
+  }
+</style>

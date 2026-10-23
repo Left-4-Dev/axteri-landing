@@ -1,0 +1,298 @@
+---
+import SectionHeading from "@components/ui/SectionHeading.astro";
+
+import { diagram, steps } from "@data/purchase-journey";
+
+/* El camino utiliza las mismas coordenadas que los íconos. */
+const route = steps
+  .map((step, index) => {
+    const command = index === 0 ? "M" : "L";
+
+    return `${command} ${step.x} ${step.y}`;
+  })
+  .join(" ");
+---
+
+<section class="journey section" aria-labelledby="journey-title">
+  <div class="container">
+    <SectionHeading
+      id="journey-title"
+      prefix="Nuestra"
+      accent="propuesta de valor"
+      description="No te preocupes por los inconvenientes a la hora de adquirir un producto. En Axteri nos encargamos de todo el proceso: desde la realización del pedido hasta el envío. Olvídate de la gestión y los trámites engorrosos; con tan solo tres simples pasos, recibe tu pedido en el almacén o en la obra, no esperes más y comienza esta experiencia única."
+    />
+
+    <div
+      class="journey__diagram"
+      style={`
+        --diagram-ratio: ${diagram.width} / ${diagram.height};
+        --node-size: ${(diagram.radius * 2 / diagram.width) * 100}%;
+      `}
+    >
+      <svg
+        class="journey__route"
+        viewBox={`0 0 ${diagram.width} ${diagram.height}`}
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <linearGradient
+            id="journey-gradient"
+            gradientUnits="userSpaceOnUse"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2={diagram.height}
+          >
+            <stop offset="0%" stop-color="#9edbff" />
+            <stop offset="55%" stop-color="#9eafff" />
+            <stop offset="100%" stop-color="#a493ff" />
+          </linearGradient>
+
+          <!-- Suaviza las uniones entre el camino y los círculos. -->
+          <filter
+            id="journey-merge"
+            x="-10%"
+            y="-10%"
+            width="120%"
+            height="120%"
+            color-interpolation-filters="sRGB"
+          >
+            <feGaussianBlur stdDeviation="5" />
+            <feColorMatrix
+              type="matrix"
+              values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 20 -9
+              "
+            />
+          </filter>
+
+          <mask
+            id="journey-mask"
+            maskUnits="userSpaceOnUse"
+            mask-type="luminance"
+            x="0"
+            y="0"
+            width={diagram.width}
+            height={diagram.height}
+          >
+            <g filter="url(#journey-merge)">
+              <path
+                data-journey-path
+                d={route}
+                fill="none"
+                stroke="white"
+                stroke-width="30"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              {steps.map((step) => (
+                <circle
+                  data-journey-node
+                  cx={step.x}
+                  cy={step.y}
+                  r={diagram.radius}
+                  fill="white"
+                />
+              ))}
+            </g>
+
+            <!-- Vacía el centro de cada círculo. -->
+            {steps.map((step) => (
+              <circle
+                data-journey-hole
+                cx={step.x}
+                cy={step.y}
+                r={diagram.innerRadius}
+                fill="black"
+              />
+            ))}
+          </mask>
+        </defs>
+
+        <rect
+          width={diagram.width}
+          height={diagram.height}
+          fill="url(#journey-gradient)"
+          mask="url(#journey-mask)"
+        />
+      </svg>
+
+      <ol class="journey__steps" role="list">
+        {steps.map((step) => (
+          <li
+            class={`journey__step journey__step--${step.label}`}
+            style={`
+              --x: ${(step.x / diagram.width) * 100}%;
+              --y: ${(step.y / diagram.height) * 100}%;
+            `}
+          >
+            <div class="journey__icon-wrapper">
+              <img
+                class="journey__icon"
+                src={`/icons/journey/${step.icon}`}
+                alt=""
+                width="72"
+                height="72"
+                loading="lazy"
+              />
+            </div>
+
+            <span class="journey__label">
+              {step.title}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+<script>
+  import "@scripts/animations/journey";
+</script>
+
+<style>
+  .journey { padding-top: 1rem; }
+  .journey__diagram {
+    position: relative;
+    max-width: 75rem;
+    margin-inline: auto;
+    aspect-ratio: var(--diagram-ratio);
+  }
+  .journey__route {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .journey__steps {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .journey__step {
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    display: block;
+    width: var(--node-size);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+  }
+  .journey__icon-wrapper {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 1;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+  }
+  .journey__icon {
+    display: block;
+    width: 54%;
+    height: 54%;
+    object-fit: contain;
+  }
+  .journey__label {
+    position: absolute;
+    width: clamp(6.5rem, 11vw, 9rem);
+    font-size: clamp(0.7rem, 1.05vw, 0.875rem);
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: center;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .journey__step--top .journey__label {
+    bottom: calc(100% + 0.65rem);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .journey__step--bottom .journey__label {
+    top: calc(100% + 0.65rem);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .journey__step--left .journey__label {
+    top: 50%;
+    right: calc(100% + 0.5rem);
+    width: clamp(4.5rem, 8vw, 6rem);
+    text-align: right;
+    transform: translateY(-50%);
+  }
+  .journey__step--right .journey__label {
+    top: 50%;
+    left: calc(100% + 0.65rem);
+    text-align: left;
+    transform: translateY(-50%);
+  }
+  /* La ruta completa necesita xl para que sus etiquetas sean legibles. */
+  @media (width < 80rem) {
+    .journey__diagram {
+      --mobile-node-size: 4rem;
+      --mobile-gap: 1.25rem;
+      --route-color: #a49bfc;
+      max-width: 36rem;
+      aspect-ratio: auto;
+    }
+    .journey__route { display: none; }
+    .journey__steps {
+      position: relative;
+      display: grid;
+      gap: var(--mobile-gap);
+    }
+    /* Una línea continua mantiene unidos los nodos aunque crezca una etiqueta. */
+    .journey__steps::before {
+      content: "";
+      position: absolute;
+      top: calc(var(--mobile-node-size) / 2);
+      bottom: calc(var(--mobile-node-size) / 2);
+      left: calc(var(--mobile-node-size) / 2);
+      width: 0.3rem;
+      background: var(--route-color);
+      /* 1 = line fully drawn. animations/journey.ts grows it with the steps. */
+      clip-path: inset(0 0 calc((1 - var(--route-progress, 1)) * 100%) 0);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .journey__step {
+      position: relative;
+      inset: auto;
+      display: grid;
+      grid-template-columns: var(--mobile-node-size) minmax(0, 1fr);
+      align-items: center;
+      gap: 1rem;
+      width: auto;
+      min-height: var(--mobile-node-size);
+      aspect-ratio: auto;
+      transform: none;
+    }
+    .journey__icon-wrapper {
+      border: 0.45rem solid var(--route-color);
+      background: var(--color-background, var(--color-white));
+    }
+    .journey__icon { width: 62%; height: 62%; }
+    .journey__step .journey__label {
+      position: static;
+      inset: auto;
+      width: auto;
+      font-size: 1rem;
+      line-height: 1.4;
+      text-align: left;
+      text-wrap: pretty;
+      transform: none;
+    }
+  }
+</style>

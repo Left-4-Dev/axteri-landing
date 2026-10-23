@@ -1,0 +1,69 @@
+---
+interface Props {
+  prefix: string;
+  accent: string;
+  description?: string;
+  light?: boolean;
+  id?: string;
+}
+const { prefix, accent, description, light = false, id } = Astro.props;
+---
+
+<div class:list={["section-heading", { "section-heading--light": light }]}>
+  <h2 id={id} class="section-heading__title">
+    {prefix} <strong>{accent}</strong>
+  </h2>
+  {description && <p class="section-heading__description">{description}</p>}
+</div>
+<script>
+  import "@scripts/animations/reveal";
+</script>
+<style>
+  .section-heading {
+    text-align: center;
+    max-width: 68rem;
+    margin: 0 auto clamp(2rem, 4vw, 3.5rem);
+  }
+  .section-heading__title {
+    font-size: var(--text-title);
+    line-height: 1.2;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+  .section-heading__title strong {
+    font-weight: var(--font-weight-strong);
+    color: var(--color-primary);
+  }
+  .section-heading__description {
+    font-family: var(--text-body);
+    margin-top: 1.25rem;
+    color: var(--color-text);
+    text-wrap: pretty;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+  .section-heading--light .section-heading__title,
+  .section-heading--light .section-heading__description {
+    color: var(--color-white);
+  }
+  .section-heading--light .section-heading__title strong {
+    color: #cceaff;
+  }
+  @media (width < 64rem) {
+    .section-heading__description {
+      max-width: 60ch;
+      margin-inline: auto;
+      line-height: 1.65;
+    }
+  }
+  @media (width < 40rem) {
+    .section-heading__title {
+      font-size: clamp(1.625rem, 5vw, 1.85rem);
+    }
+    .section-heading__description {
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+  }
+</style>

@@ -1,0 +1,434 @@
+---
+import { navigationLinks } from "@data/navigation";
+import logoUrl from "@assets/logos/axteri-logo.svg?url";
+---
+
+<header class="header" id="inicio">
+  <div class="header__inner container">
+    <a class="brand" href="#inicio" aria-label="Axteri, inicio">
+      <img
+        class="brand__logo"
+        src={logoUrl}
+        alt="Axteri"
+      />
+    </a>
+    <button
+      class="header__menu"
+      type="button"
+      aria-label="Menú principal"
+      aria-expanded="false"
+      aria-controls="main-navigation"
+      hidden
+    >
+      <span class="header__menu-icon" aria-hidden="true"></span>
+    </button>
+    <nav
+      class="header__nav"
+      id="main-navigation"
+      aria-label="Navegación principal"
+    >
+      {navigationLinks.map((link) => (
+        <a class="header__link" href={link.href}>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+    <button
+      class="header__theme"
+      type="button"
+      aria-label="Tema oscuro"
+      aria-pressed="false"
+      data-theme-toggle
+      hidden
+    >
+      <span class="header__theme-thumb" aria-hidden="true">
+        <img
+          class="header__theme-icon header__theme-icon--moon"
+          src="/icons/ui/moon.svg"
+          alt=""
+          width="28"
+          height="28"
+        />
+        <img
+          class="header__theme-icon header__theme-icon--sun"
+          src="/icons/ui/sun.svg"
+          alt=""
+          width="28"
+          height="28"
+        />
+      </span>
+    </button>
+  </div>
+</header>
+<script>
+  import "@scripts/navigation";
+  import "@scripts/animations/header";
+</script>
+<style>
+  .header {
+    position: absolute;
+    top: 0;
+    inset: 0 0 auto;
+    z-index: 10;
+    color: var(--color-ink);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    min-height: 6.5rem;
+    padding-block: 1rem;
+  }
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    margin-left: auto;
+  }
+  .header__link {
+    position: relative;
+    font-size: 0.925rem;
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .header__link:hover,
+  .header__link:focus-visible,
+  .header__link[aria-current]:not([aria-current="false"]) {
+    color: #4f45c1;
+  }
+  .header__link::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -0.35rem;
+    left: 0;
+    height: 2px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transition: transform var(--transition-fast);
+  }
+  .header__link:hover::after,
+  .header__link:focus-visible::after,
+  .header__link[aria-current]:not([aria-current="false"])::after {
+    transform: scaleX(1);
+  }
+  .header__theme {
+    --toggle-width: 3.25rem;
+    --toggle-height: 1.75rem;
+    --toggle-padding: 0rem;
+    --toggle-thumb-size: calc(
+      var(--toggle-height) - var(--toggle-padding)
+    );
+    position: relative;
+    flex-shrink: 0;
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-white);
+    cursor: pointer;
+  }
+  .header__theme::before {
+    content: "";
+    position: absolute;
+    inset: -0.5rem 0;
+  }
+  .header__theme-thumb {
+    position: absolute;
+    top: var(--toggle-padding);
+    left: var(--toggle-padding);
+    display: grid;
+    place-items: center;
+    width: var(--toggle-thumb-size);
+    height: var(--toggle-thumb-size);
+    border-radius: 50%;
+    background-color: var(--color-ink);
+    transform: translateX(0);
+    transition: transform 250ms ease;
+  }
+  .header__theme-icon {
+    grid-area: 1 / 1;
+    display: block;
+    width: 65%;
+    height: 65%;
+    object-fit: contain;
+    transition: opacity var(--transition-fast);
+  }
+  .header__theme-icon--moon {
+    opacity: 1;
+  }
+  .header__theme-icon--sun {
+    opacity: 0;
+  }
+  .header__theme[aria-pressed="true"] .header__theme-thumb {
+    transform: translateX(
+      calc(var(--toggle-width) - var(--toggle-height))
+    );
+  }
+  .header__theme[aria-pressed="true"] .header__theme-icon--moon {
+    opacity: 0;
+  }
+  .header__theme[aria-pressed="true"] .header__theme-icon--sun {
+    opacity: 1;
+  }
+  .header__menu {
+    min-height: 2.75rem;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #616a93;
+    border-radius: 0.6rem;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+  .header__theme:focus-visible,
+  .header__menu:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+  :global([data-theme="dark"]) .header {
+    background: var(--gradient-header-dark);
+    color: var(--color-white);
+  }
+  :global([data-theme="dark"]) .header__link:hover,
+  :global([data-theme="dark"]) .header__link:focus-visible,
+  :global([data-theme="dark"])
+    .header__link[aria-current]:not([aria-current="false"]) {
+    color: #c9c6ff;
+  }
+  /* Evita que display: grid sobrescriba el atributo hidden. */
+  .header__menu[hidden],
+  .header__theme[hidden] {
+    display: none;
+  }
+
+  /* lg: tablet y móvil. */
+  @media (width < 64rem) {
+    .header__inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 0.75rem;
+      min-height: 5.25rem;
+      padding-block: 0.75rem;
+    }
+
+    .brand {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: start;
+      min-width: 0;
+    }
+
+    .brand__logo {
+      width: 9rem;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .header__menu {
+      box-sizing: border-box;
+      grid-column: 2;
+      grid-row: 1;
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+      border: 1px solid rgb(50 54 67 / 25%);
+      border-radius: var(--radius-control);
+      background: rgb(255 255 255 / 45%);
+      color: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .header__menu-icon {
+      position: relative;
+      display: block;
+      width: 1.125rem;
+      height: 2px;
+      border-radius: var(--radius-pill);
+      background: currentColor;
+      transition: background-color var(--transition-fast);
+    }
+
+    .header__menu-icon::before,
+    .header__menu-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      border-radius: inherit;
+      background: currentColor;
+      transition: transform var(--transition-fast);
+    }
+
+    .header__menu-icon::before {
+      top: -6px;
+    }
+
+    .header__menu-icon::after {
+      top: 6px;
+    }
+
+    .header__menu[aria-expanded="true"] .header__menu-icon {
+      background: transparent;
+    }
+
+    .header__menu[aria-expanded="true"] .header__menu-icon::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .header__menu[aria-expanded="true"] .header__menu-icon::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .header__theme {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+    }
+
+    .header__nav {
+      box-sizing: border-box;
+      grid-column: 1 / -1;
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      gap: 0.25rem;
+
+      width: 100%;
+      min-width: 0;
+      margin: 0;
+      padding: 0.75rem;
+
+      border: 1px solid rgb(115 121 255 / 20%);
+      border-radius: 1rem;
+      background: linear-gradient(115deg, #d6eefe, #e4dfff);
+      box-shadow: 0 12px 30px rgb(50 54 67 / 18%);
+
+      max-height: calc(100vh - 7rem);
+      max-height: calc(100dvh - 7rem);
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+    }
+
+    /* El panel flotante se activa cuando el script está disponible. */
+    .header__nav--enhanced {
+      position: absolute;
+      top: calc(100% + 0.25rem);
+      right: 0;
+      left: 0;
+      z-index: 1;
+      display: none;
+    }
+
+    .header__nav--open {
+      display: flex;
+    }
+
+    .header__link {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+      min-height: 3rem;
+      padding: 0.875rem 1rem;
+      border-radius: 0.625rem;
+
+      color: inherit;
+      font-size: 1rem;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .header__link::after {
+      right: 35%;
+      bottom: 0.4rem;
+      left: 35%;
+    }
+
+    .header__link:hover,
+    .header__link:focus-visible,
+    .header__link[aria-current]:not([aria-current="false"]) {
+      background: rgb(255 255 255 / 45%);
+    }
+
+    .header__link:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: -2px;
+    }
+
+    :global([data-theme="dark"]) .header__menu {
+      border-color: rgb(255 255 255 / 25%);
+      background: rgb(255 255 255 / 8%);
+    }
+
+    :global([data-theme="dark"]) .header__nav {
+      border-color: rgb(201 198 255 / 20%);
+      background: var(--gradient-header-dark);
+      box-shadow: 0 12px 30px rgb(0 0 0 / 25%);
+    }
+
+    :global([data-theme="dark"]) .header__link:hover,
+    :global([data-theme="dark"]) .header__link:focus-visible,
+    :global([data-theme="dark"])
+      .header__link[aria-current]:not([aria-current="false"]) {
+      background: rgb(255 255 255 / 8%);
+    }
+  }
+
+  /* sm: móviles pequeños. */
+  @media (width < 40rem) {
+    .header__inner {
+      gap: var(--space-1);
+      min-height: 4.75rem;
+      padding-block: 0.625rem;
+    }
+
+    .brand__logo {
+      width: clamp(7.5rem, 36vw, 8.75rem);
+    }
+
+    .header__theme {
+      --toggle-width: 3rem;
+      --toggle-height: 1.625rem;
+    }
+
+    .header__theme::before {
+      /* 44px de zona táctil sin agrandar el dibujo del selector. */
+      inset: -0.5625rem 0;
+    }
+
+    .header__nav {
+      padding: 0.5rem;
+      max-height: calc(100vh - 6rem);
+      max-height: calc(100dvh - 6rem);
+    }
+
+    .header__link {
+      font-size: 0.9375rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header__link::after,
+    .header__menu-icon,
+    .header__menu-icon::before,
+    .header__menu-icon::after,
+    .header__theme-thumb,
+    .header__theme-icon {
+      transition: none;
+    }
+  }
+</style>

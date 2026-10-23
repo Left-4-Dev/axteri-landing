@@ -1,1 +1,3 @@
-AGENTS.md
+# Axteri — Claude Code Instructions
+
+@AGENTS.md

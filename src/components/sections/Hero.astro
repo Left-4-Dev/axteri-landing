@@ -1,0 +1,215 @@
+---
+import Action from "@components/ui/Action.astro";
+import { contact, registrationUrl } from "@data/navigation";
+const stats = [
+  { value: "12", label: "Marcas aliadas" },
+  { value: "+500", label: "Usuarios" },
+  { value: "4500", label: "Productos" },
+];
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__inner container">
+    <h1 class="hero__title" id="hero-title">
+      Brilla, conecta y trasciende
+    </h1>
+    <p class="hero__description">
+      El mercado digital que te brinda una forma sencilla, rápida
+      <br class="hero__break" /> y segura de comprar por internet.
+    </p>
+    <div class="hero__actions">
+      <Action variant="primary" class="hero__action" href="#categorias">
+        EXPLORAR
+      </Action>
+      <Action variant="light" class="hero__action" href={registrationUrl ?? contact.href}>
+        UNIRSE
+      </Action>
+    </div>
+    <dl class="hero__stats">
+      {stats.map((stat, index) => (
+        <div class:list={["hero__stat", { "hero__stat--accent": index === 1 }]}>
+          <dt>{stat.label}</dt>
+          <dd>{stat.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+<script>
+  import "@scripts/animations/hero";
+</script>
+<style>
+  .hero {
+    --hero-gradient: linear-gradient(90deg, var(--color-sky), var(--color-brand-end));
+    position: relative;
+    padding: clamp(9.5rem, 12vw, 12.5rem) 0 clamp(3rem, 6vw, 6rem);
+    color: var(--color-ink);
+    background-color: var(--color-white);
+    background-image:
+      var(--hero-gradient),
+      url("/images/backgrounds/hero-mesh-background.png");
+    background-blend-mode: color, normal;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .hero__inner {
+    text-align: center;
+  }
+  .hero__title {
+    font-size: clamp(2.4rem, 4.5vw, 4.5rem);
+    font-weight: var(--font-weight-strong);
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    max-width: 75rem;
+    margin: auto;
+    color: var(--color-white);
+    text-shadow: none;
+    text-wrap: balance;
+  }
+  .hero__description {
+    max-width: 52rem;
+    margin: 1.65rem auto 0;
+    font-size: clamp(1rem, 1.5vw, 1.3rem);
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .hero__actions {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 4vw, 4rem);
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .hero__actions .button {
+    min-width: 12rem;
+  }
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin: 4rem 0 0;
+  }
+  .hero__stat {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    padding: 1.35rem 1rem;
+    border-radius: var(--radius-card);
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  /* Fondo y relieve de la tarjeta. */
+  .hero__stat::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    border-radius: inherit;
+    background-color: var(--color-relief-surface);
+
+    box-shadow:
+      -5px -5px 5px 0 rgb(255 255 255 / 75%),
+      5px 5px 5px 0 rgb(0 0 0 / 75%);
+
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
+
+  /* Mantiene los números y textos encima del efecto. */
+  .hero__stat > * {
+    position: relative;
+    z-index: 1;
+  }
+  .hero__stat dt {
+    font-family: var(--font-secondary);
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: #555f75;
+  }
+  .hero__stat dd {
+    font-family: var(--font-body);
+    font-size: clamp(2.25rem, 4.5vw, 4rem);
+    font-weight: var(--font-weight-strong);
+    line-height: 1.2;
+    margin: 0;
+    color: #66718a;
+  }
+  .hero__stat--accent dd, .hero__stat--accent dt {
+    color: var(--color-primary);
+  }
+  :global([data-theme="dark"]) .hero__title {
+    color: var(--color-white);
+  }
+  :global([data-theme="dark"]) .hero {
+    background: var(--gradient-header-dark);
+    color: var(--color-white);
+  }
+  :global([data-theme="dark"]) .hero__stat {
+    background: #202746cc;
+  }
+  :global([data-theme="dark"]) .hero__stat dt,
+  :global([data-theme="dark"]) .hero__stat dd {
+    color: #d9e6ff;
+  }
+  @media (width < 64rem) {
+    .hero__stat {
+      /* Alinea las cifras aunque una etiqueta ocupe dos líneas. */
+      justify-content: flex-end;
+    }
+  }
+  @media (width < 40rem) {
+    .hero__title {
+      font-size: clamp(2rem, 6vw, 2.4rem);
+      line-height: 1.15;
+    }
+    .hero__description {
+      margin-top: 1.25rem;
+      line-height: 1.6;
+    }
+    .hero__stats {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.75rem;
+      max-width: 26rem;
+      margin: 2rem auto 0;
+    }
+    .hero__stat {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.875rem 1.25rem;
+    }
+    .hero__stat dt {
+      font-size: 0.875rem;
+      letter-spacing: 0;
+      text-align: right;
+    }
+    .hero__stat dd {
+      font-size: 2rem;
+    }
+    .hero__actions {
+      gap: 0.75rem;
+      margin-top: 1.75rem;
+    }
+    .hero__actions .button {
+      min-width: 0;
+      padding: 0.75rem 1.5rem;
+    }
+    .hero__break {
+      display: none;
+    }
+    .hero {
+      padding-top: 7.75rem;
+      padding-bottom: 2.25rem;
+    }
+  }
+</style>

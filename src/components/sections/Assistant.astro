@@ -1,0 +1,323 @@
+---
+import Axter from "@assets/illustrations/axter.svg";
+const capabilities = [
+  "Te ayudo con cotizaciones rápidas.",
+  "Respondo tus consultas básicas en cada área.",
+  "Realizo la búsqueda y comparación de productos de manera sencilla.",
+  "Y mucho más, para que tengas siempre la mejor experiencia.",
+];
+---
+
+<section class="assistant section" aria-labelledby="assistant-title">
+  <div class="container">
+    <h2
+      class="assistant__title"
+      id="assistant-title"
+      aria-label="¡Soy Axter!"
+    >
+      <svg
+        class="assistant__title-curve"
+        viewBox="0 0 600 130"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <path
+            id="axter-title-arc"
+            d="M 20 113 Q 300 30 580 113"
+          />
+        </defs>
+
+        <text class="assistant__title-text" text-anchor="middle">
+          <textPath href="#axter-title-arc" startOffset="50%">
+            ¡SOY AXTER!
+          </textPath>
+        </text>
+      </svg>
+    </h2>
+    <p class="assistant__subtitle">Tu asistente IA virtual</p>
+    <div class="assistant__layout">
+      <div class="assistant__image-wrapper">
+        <!-- Inline so GSAP can draw the waveform path (DrawSVG); same file, same drawing. -->
+        <Axter
+          class="assistant__image"
+          role="img"
+          aria-label="Símbolo de Axter"
+          focusable="false"
+        />
+      </div>
+      <ul class="assistant__list">
+        {capabilities.map((text, index) => (
+          <li
+            class={`assistant__bubble assistant__bubble--${["quotations", "questions", "search", "experience"][index]}`}
+            data-reveal
+          >
+            {text}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+<script>
+  import "@scripts/animations/assistant";
+</script>
+<style>
+  .assistant {
+    padding-top: 0;
+  }
+
+  /* Encabezado */
+  .assistant__title {
+    width: min(100%, 32rem);
+    margin: 0 auto;
+    color: var(--color-primary);
+    line-height: 1;
+  }
+
+  .assistant__title-curve {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    fill: currentColor;
+  }
+
+  .assistant__title-text {
+    font-family: var(--font-primary);
+    font-size: 88px;
+    font-weight: var(--font-weight-strong);
+  }
+
+  .assistant__subtitle {
+    margin: clamp(-1.5rem, -3vw, -0.5rem) 0 0;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* Distribución base: una columna */
+  .assistant__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: 3.5rem;
+  }
+
+  /* Símbolo y conector */
+  .assistant__image-wrapper {
+    --circle-color: #a097fb;
+    --connector-length: 3rem;
+    --connector-thickness: 0.5rem;
+
+    position: relative;
+    display: grid;
+    place-items: center;
+    justify-self: center;
+
+    width: min(100%, clamp(12rem, 40vw, 18rem));
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+    background: var(--circle-color);
+    box-shadow: 6px 8px 14px rgb(108 94 194 / 22%);
+  }
+
+  .assistant__image-wrapper::before {
+    content: "";
+    position: absolute;
+    top: calc(0px - var(--connector-length));
+    left: 50%;
+
+    width: var(--connector-thickness);
+    height: calc(var(--connector-length) + 2px);
+
+    border-radius: 999px 999px 0 0;
+    background: var(--circle-color);
+    /* 1 = connector fully drawn. animations/assistant.ts grows it upwards
+       from the circle. */
+    clip-path: inset(calc((1 - var(--connector-reveal, 1)) * 100%) 0 0 0);
+
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .assistant__image {
+    position: relative;
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    clip-path: circle(50%);
+  }
+
+  /* Capacidades */
+  .assistant__list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+
+  .assistant__bubble {
+    display: grid;
+    align-content: center;
+
+    min-width: 0;
+    padding: 1.25rem 1.5rem;
+
+    border-radius: var(--radius-card);
+    background: linear-gradient(
+      var(--bubble-angle, 90deg),
+      var(--color-sky),
+      var(--color-lavender)
+    );
+
+    color: var(--color-white);
+    font-size: clamp(0.9375rem, 1.5vw, 1rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.5;
+    text-align: center;
+    text-wrap: balance;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+
+    filter: drop-shadow(5px 7px 5px rgb(108 94 194 / 22%));
+  }
+
+  /* Desde 40rem: capacidades en dos columnas */
+  @media (min-width: 40rem) {
+    .assistant__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+  }
+
+  /* Desde 64rem: diagrama con símbolo central */
+  @media (min-width: 64rem) {
+    .assistant__layout {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .assistant__image-wrapper {
+      grid-column: 2;
+      grid-row: 1;
+      width: min(100%, 22.5rem);
+    }
+
+    .assistant__list {
+      grid-column: 1 / -1;
+      grid-row: 1;
+
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .assistant__bubble {
+      --bubble-tail-width: 1.75rem;
+      --bubble-tail-height: 1.75rem;
+
+      position: relative;
+      padding: 1.5rem clamp(1.5rem, 2.5vw, 3rem);
+    }
+
+    .assistant__bubble::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: calc(1px - var(--bubble-tail-width));
+
+      width: var(--bubble-tail-width);
+      height: var(--bubble-tail-height);
+
+      background: var(--color-lavender);
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .assistant__bubble--quotations {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .assistant__bubble--questions {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    .assistant__bubble--search {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .assistant__bubble--experience {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    .assistant__bubble--questions,
+    .assistant__bubble--experience {
+      --bubble-angle: 270deg;
+    }
+
+    .assistant__bubble--questions::after,
+    .assistant__bubble--experience::after {
+      right: auto;
+      left: calc(1px - var(--bubble-tail-width));
+
+      clip-path: polygon(100% 0, 0 50%, 100% 100%);
+    }
+  }
+  @media (width < 64rem) {
+    .assistant__title {
+      width: min(100%, 24rem);
+    }
+    .assistant__subtitle {
+      margin-top: -0.5rem;
+      font-size: 1rem;
+    }
+    .assistant__layout {
+      gap: var(--space-3);
+      margin-top: 2.5rem;
+    }
+    .assistant__image-wrapper {
+      --connector-length: 2rem;
+      width: clamp(10rem, 28vw, 14rem);
+    }
+    .assistant__list {
+      width: 100%;
+      max-width: 44rem;
+      margin-inline: auto;
+      gap: var(--space-2);
+    }
+    .assistant__bubble {
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+    }
+  }
+  @media (width < 40rem) {
+    .assistant__title {
+      width: min(100%, 18rem);
+    }
+    .assistant__layout {
+      margin-top: 2rem;
+    }
+    .assistant__image-wrapper {
+      --connector-length: 1.5rem;
+      width: 10rem;
+    }
+    .assistant__list {
+      max-width: 28rem;
+    }
+  }
+</style>
